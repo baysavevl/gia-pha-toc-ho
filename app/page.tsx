@@ -3,6 +3,8 @@ import PublicFooter from "@/components/PublicFooter";
 import PublicHeader from "@/components/PublicHeader";
 import PublicSection from "@/components/PublicSection";
 import {
+  audienceGroups,
+  moduleBriefs,
   notablePeople,
   phaKyEntries,
   postEntries,
@@ -136,6 +138,16 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+          <div className="mt-8 overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+            <Image
+              src={siteContent.responsivePreviewImage}
+              alt="Giao diện website Hồ Văn Tộc trên máy tính và điện thoại"
+              width={1800}
+              height={980}
+              className="h-auto w-full"
+              sizes="(min-width: 1024px) 1120px, 100vw"
+            />
+          </div>
         </PublicSection>
 
         <PublicSection
@@ -165,6 +177,102 @@ export default function HomePage() {
                 </Link>
               );
             })}
+          </div>
+        </PublicSection>
+
+        <PublicSection
+          eyebrow="Đối tượng sử dụng"
+          title="Phân quyền rõ cho từng nhóm người dùng"
+          description="Bản brief cập nhật tách quyền của Ban trị sự, trưởng các chi, thành viên dòng họ và khách tham quan để bảo vệ dữ liệu riêng tư."
+          className="pb-16"
+        >
+          <div className="grid gap-4 md:grid-cols-2">
+            {audienceGroups.map((group) => (
+              <article
+                key={group.title}
+                className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm"
+              >
+                <h2 className="font-serif text-2xl font-bold text-stone-900">
+                  {group.title}
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-stone-600">
+                  {group.description}
+                </p>
+                <ul className="mt-5 space-y-3 text-sm leading-6 text-stone-700">
+                  {group.permissions.map((permission) => (
+                    <li key={permission} className="flex gap-3">
+                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-amber-600" />
+                      <span>{permission}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </PublicSection>
+
+        <PublicSection
+          eyebrow="Cập nhật brief"
+          title="Yêu cầu chi tiết theo từng phân hệ"
+          description="Các mockup và nội dung dưới đây được lấy từ bản PowerPoint cập nhật, tập trung vào tìm kiếm, lọc, chia sẻ, quản lý nội dung và đồng bộ Phả hệ - Phả đồ."
+          className="pb-20"
+        >
+          <div className="grid gap-5 lg:grid-cols-2">
+            {moduleBriefs.map((module) => (
+              <article
+                key={module.title}
+                className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm"
+              >
+                <Image
+                  src={module.image}
+                  alt={`Mockup phân hệ ${module.title}`}
+                  width={1400}
+                  height={900}
+                  className="aspect-[16/9] w-full object-cover"
+                  sizes="(min-width: 1024px) 560px, 100vw"
+                />
+                <div className="p-6">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <h2 className="font-serif text-2xl font-bold text-stone-900">
+                        {module.title}
+                      </h2>
+                      <p className="mt-2 text-sm leading-6 text-stone-600">
+                        {module.summary}
+                      </p>
+                    </div>
+                    <Link href={module.href} className="btn shrink-0 py-2.5 text-sm">
+                      Xem
+                    </Link>
+                  </div>
+                  <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">
+                        Nội dung
+                      </p>
+                      <ul className="mt-3 space-y-2 text-sm leading-6 text-stone-700">
+                        {module.details.map((detail) => (
+                          <li key={detail}>{detail}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">
+                        Tính năng
+                      </p>
+                      <ul className="mt-3 space-y-2 text-sm leading-6 text-stone-700">
+                        {module.features.map((feature) => (
+                          <li key={feature}>{feature}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                  <p className="mt-5 rounded-xl bg-stone-50 p-4 text-sm leading-6 text-stone-700 ring-1 ring-stone-200">
+                    {module.management}
+                  </p>
+                </div>
+              </article>
+            ))}
           </div>
         </PublicSection>
 

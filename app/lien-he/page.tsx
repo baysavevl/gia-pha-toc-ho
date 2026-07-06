@@ -2,7 +2,8 @@ import PublicFooter from "@/components/PublicFooter";
 import PublicHeader from "@/components/PublicHeader";
 import PublicSection from "@/components/PublicSection";
 import { contactInfo } from "@/data/publicContent";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, UserRound } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
@@ -43,6 +44,28 @@ export default function LienHePage() {
                 <p className="mt-5 rounded-xl bg-amber-50 p-4 text-sm leading-6 text-amber-900 ring-1 ring-amber-200">
                   {contactInfo.note}
                 </p>
+              </div>
+              <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+                <Image
+                  src="/brief/contact-form.png"
+                  alt="Mockup trang liên hệ Hồ Văn Tộc"
+                  width={1400}
+                  height={900}
+                  className="aspect-[16/10] w-full object-cover"
+                  sizes="(min-width: 1024px) 420px, 100vw"
+                />
+                <div className="p-6">
+                  <p className="flex gap-3 text-sm text-stone-700">
+                    <UserRound className="mt-0.5 size-5 shrink-0 text-amber-700" />
+                    <span>
+                      Trình bày bởi <strong>{contactInfo.coordinatorName}</strong>
+                    </span>
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-stone-600">
+                    Kênh liên hệ triển khai: {contactInfo.coordinatorPhone} ·{" "}
+                    {contactInfo.coordinatorEmail}
+                  </p>
+                </div>
               </div>
               <Link
                 href={contactInfo.mapUrl}
