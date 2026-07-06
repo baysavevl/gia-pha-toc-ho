@@ -2,6 +2,57 @@
 
 This project uses Supabase for authentication, Postgres data, row-level security, and Storage buckets.
 
+## Automated CLI Setup
+
+The repository includes a Supabase CLI workspace in `supabase/` and npm scripts for the main lifecycle.
+
+You need a Supabase access token from `https://supabase.com/dashboard/account/tokens`.
+Do not commit this token.
+
+```bash
+npm run supabase:login -- --token sbp_your_access_token
+npm run supabase:orgs
+```
+
+Create the hosted project, replacing the org id and database password:
+
+```bash
+npx supabase projects create gia-pha-toc-ho \
+  --org-id your-org-id \
+  --db-password "use-a-strong-database-password" \
+  --region ap-southeast-1 \
+  --size nano \
+  --output-format json
+```
+
+Link the local repo to the created project:
+
+```bash
+npm run supabase:link -- \
+  --project-ref your-project-ref \
+  --password "use-a-strong-database-password"
+```
+
+Apply the schema migrations from `supabase/migrations/`:
+
+```bash
+npm run supabase:db:push
+```
+
+Fetch the project API keys:
+
+```bash
+npx supabase projects api-keys --project-ref your-project-ref --output-format json
+```
+
+Then set `.env.local`:
+
+```env
+SITE_NAME="Hồ Văn Tộc"
+NEXT_PUBLIC_SUPABASE_URL="https://your-project-ref.supabase.co"
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY="your-anon-or-publishable-key"
+```
+
 ## 1. Create The Supabase Project
 
 1. Open `https://supabase.com/dashboard`.

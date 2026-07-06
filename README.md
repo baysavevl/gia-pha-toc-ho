@@ -66,6 +66,18 @@ Open `http://localhost:3000`.
 
 See [docs/supabase-setup.md](docs/supabase-setup.md).
 
+This repo includes Supabase CLI config and migrations under `supabase/`.
+
+Useful commands:
+
+```bash
+npm run supabase:login
+npm run supabase:orgs
+npm run supabase:projects
+npm run supabase:link -- --project-ref your-project-ref
+npm run supabase:db:push
+```
+
 Fresh database SQL order:
 
 1. Run `docs/schema.sql`.

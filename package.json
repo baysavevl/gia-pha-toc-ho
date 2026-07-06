@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "supabase:login": "supabase login",
+    "supabase:orgs": "supabase orgs list",
+    "supabase:projects": "supabase projects list",
+    "supabase:link": "supabase link",
+    "supabase:db:push": "supabase db push"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.3",
@@ -33,6 +38,7 @@
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.4",
     "eslint-config-next": "16.2.6",
+    "supabase": "^2.109.0",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.9.3"
   },
