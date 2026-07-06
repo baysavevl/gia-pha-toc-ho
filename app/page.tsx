@@ -1,0 +1,225 @@
+import ContentCard from "@/components/ContentCard";
+import PublicFooter from "@/components/PublicFooter";
+import PublicHeader from "@/components/PublicHeader";
+import PublicSection from "@/components/PublicSection";
+import {
+  notablePeople,
+  phaKyEntries,
+  postEntries,
+  publicEvents,
+  siteContent,
+} from "@/data/publicContent";
+import {
+  ArrowRight,
+  BookOpen,
+  CalendarDays,
+  FileText,
+  Star,
+  TreePine,
+  Users,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+
+export default function HomePage() {
+  const modules = [
+    {
+      title: "Phả ký",
+      desc: "Lưu giữ lịch sử hình thành, gia phong và những tư liệu nền tảng của dòng họ.",
+      href: "/pha-ky",
+      icon: BookOpen,
+    },
+    {
+      title: "Phả hệ",
+      desc: "Quản lý hồ sơ thành viên, quan hệ gia đình và các thông tin đã được phân quyền.",
+      href: "/login",
+      icon: Users,
+    },
+    {
+      title: "Phả đồ",
+      desc: "Trực quan hóa dữ liệu Phả hệ thành sơ đồ cây để các thế hệ dễ tra cứu.",
+      href: "/login",
+      icon: TreePine,
+    },
+    {
+      title: "Sự kiện",
+      desc: "Theo dõi lễ giỗ tổ, họp tộc, hoạt động tu bổ, giao lưu và các lịch quan trọng.",
+      href: "/su-kien",
+      icon: CalendarDays,
+    },
+    {
+      title: "Bài viết",
+      desc: "Chia sẻ tin tức, hình ảnh, câu chuyện lịch sử và thông báo từ Ban trị sự.",
+      href: "/bai-viet",
+      icon: FileText,
+    },
+    {
+      title: "Nhân vật tiêu biểu",
+      desc: "Giới thiệu những cá nhân có đóng góp cho dòng họ, quê hương và cộng đồng.",
+      href: "/nhan-vat-tieu-bieu",
+      icon: Star,
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-neutral text-primary">
+      <PublicHeader />
+      <main>
+        <section className="relative min-h-[78svh] overflow-hidden bg-stone-900">
+          <Image
+            src={siteContent.heroImage}
+            alt="Cổng nhà thờ tộc Hồ Văn"
+            fill
+            priority
+            className="object-cover opacity-85"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-linear-to-r from-stone-950/85 via-stone-950/55 to-stone-950/15" />
+          <div className="relative z-10 mx-auto flex min-h-[78svh] max-w-7xl items-center px-4 py-16 sm:px-6 lg:px-8">
+            <div className="max-w-3xl text-white">
+              <p className="mb-5 inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-bold text-amber-100 ring-1 ring-white/20 backdrop-blur">
+                Dự án thiết kế website dòng họ
+              </p>
+              <h1 className="font-serif text-5xl font-bold leading-tight sm:text-6xl lg:text-7xl">
+                {siteContent.name}
+              </h1>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-100 sm:text-xl">
+                {siteContent.tagline}
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Link href="/login" className="btn-primary bg-white text-stone-900 hover:bg-amber-50">
+                  Đăng nhập để xem gia phả
+                  <ArrowRight className="size-5" />
+                </Link>
+                <Link href="/pha-ky" className="btn border-white/30 bg-white/10 text-white hover:bg-white/20">
+                  Đọc phả ký
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <PublicSection
+          eyebrow="Không gian số"
+          title="Gìn giữ di sản dòng họ theo một cấu trúc có thể tiếp nối"
+          description={siteContent.description}
+          className="py-14 sm:py-20"
+        >
+          <div className="grid gap-4 md:grid-cols-3">
+            {[
+              {
+                label: "Dữ liệu gốc",
+                value: "Phả hệ",
+                desc: "Mỗi thành viên được quản lý một lần, tránh sai lệch khi hiển thị cây gia phả.",
+              },
+              {
+                label: "Trực quan",
+                value: "Phả đồ",
+                desc: "Sơ đồ cây giúp con cháu nhìn thấy quan hệ giữa các thế hệ, chi, phái và nhánh.",
+              },
+              {
+                label: "Kết nối",
+                value: "Sự kiện",
+                desc: "Lễ giỗ tổ, họp tộc và các hoạt động chung được lưu lại để dễ theo dõi.",
+              },
+            ].map((item) => (
+              <div key={item.value} className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">
+                  {item.label}
+                </p>
+                <p className="mt-3 font-serif text-3xl font-bold text-stone-900">
+                  {item.value}
+                </p>
+                <p className="mt-3 text-sm leading-6 text-stone-600">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </PublicSection>
+
+        <PublicSection
+          eyebrow="Chức năng"
+          title="Các phân hệ theo brief Hồ Văn Tộc"
+          description="Trang công khai dùng cho nội dung đã được phép chia sẻ; dữ liệu gia phả chi tiết vẫn nằm trong khu vực đăng nhập."
+          className="pb-16"
+        >
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {modules.map((module) => {
+              const Icon = module.icon;
+              return (
+                <Link
+                  key={module.title}
+                  href={module.href}
+                  className="group rounded-2xl border border-stone-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-amber-200 hover:shadow-soft-hover"
+                >
+                  <span className="flex size-12 items-center justify-center rounded-xl bg-amber-50 text-amber-700 ring-1 ring-amber-200/60">
+                    <Icon className="size-6" />
+                  </span>
+                  <h2 className="mt-5 font-serif text-2xl font-bold text-stone-900 group-hover:text-amber-800">
+                    {module.title}
+                  </h2>
+                  <p className="mt-3 text-sm leading-6 text-stone-600">
+                    {module.desc}
+                  </p>
+                </Link>
+              );
+            })}
+          </div>
+        </PublicSection>
+
+        <PublicSection
+          eyebrow="Nội dung mới"
+          title="Tư liệu đang được khởi tạo"
+          description="Các bài viết mẫu bên dưới đặt cấu trúc ban đầu cho Phả ký, Sự kiện, Bài viết và Nhân vật tiêu biểu."
+          className="pb-20"
+        >
+          <div className="grid gap-5 lg:grid-cols-3">
+            <ContentCard
+              href={`/pha-ky/${phaKyEntries[0].slug}`}
+              title={phaKyEntries[0].title}
+              summary={phaKyEntries[0].summary}
+              image={phaKyEntries[0].coverImage}
+              badge="Phả ký"
+            />
+            <ContentCard
+              href={`/su-kien/${publicEvents[0].slug}`}
+              title={publicEvents[0].title}
+              summary={publicEvents[0].summary}
+              image={publicEvents[0].bannerImage}
+              badge="Sự kiện"
+            />
+            <ContentCard
+              href={`/bai-viet/${postEntries[0].slug}`}
+              title={postEntries[0].title}
+              summary={postEntries[0].summary}
+              image={postEntries[0].coverImage}
+              badge="Bài viết"
+            />
+          </div>
+          {notablePeople[0] && (
+            <div className="mt-5 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">
+                    Nhân vật tiêu biểu
+                  </p>
+                  <h2 className="mt-2 font-serif text-2xl font-bold text-stone-900">
+                    {notablePeople[0].title}
+                  </h2>
+                  <p className="mt-2 max-w-3xl text-sm leading-6 text-stone-600">
+                    {notablePeople[0].summary}
+                  </p>
+                </div>
+                <Link href="/nhan-vat-tieu-bieu" className="btn py-3">
+                  Xem danh sách
+                </Link>
+              </div>
+            </div>
+          )}
+        </PublicSection>
+      </main>
+      <PublicFooter />
+    </div>
+  );
+}
