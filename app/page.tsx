@@ -9,7 +9,9 @@ import {
   phaKyEntries,
   postEntries,
   publicEvents,
+  publicGenealogyProfiles,
   siteContent,
+  type PublicGenealogyProfile,
 } from "@/data/publicContent";
 import {
   ArrowRight,
@@ -23,6 +25,47 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
+function PublicGenealogyCard({
+  profile,
+  className = "",
+}: {
+  profile: PublicGenealogyProfile;
+  className?: string;
+}) {
+  return (
+    <article
+      className={`rounded-2xl border border-stone-200 bg-white p-5 shadow-sm ${className}`}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">
+            {profile.relationLabel}
+          </p>
+          <h3 className="mt-2 font-serif text-2xl font-bold text-stone-900">
+            {profile.fullName}
+          </h3>
+        </div>
+        <span className="shrink-0 rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700 ring-1 ring-amber-200/70">
+          {profile.generation}
+        </span>
+      </div>
+      <div className="mt-4 grid gap-2 text-sm text-stone-600 sm:grid-cols-2">
+        <p>
+          <span className="font-semibold text-stone-900">Nhánh:</span>{" "}
+          {profile.branch}
+        </p>
+        <p>
+          <span className="font-semibold text-stone-900">Niên đại:</span>{" "}
+          {profile.lifespan}
+        </p>
+      </div>
+      <p className="mt-3 text-sm leading-6 text-stone-600">
+        {profile.summary}
+      </p>
+    </article>
+  );
+}
+
 export default function HomePage() {
   const modules = [
     {
@@ -33,14 +76,14 @@ export default function HomePage() {
     },
     {
       title: "Phả hệ",
-      desc: "Quản lý hồ sơ thành viên, quan hệ gia đình và các thông tin đã được phân quyền.",
-      href: "/login",
+      desc: "Xem các hồ sơ đại diện đã được publish công khai để con cháu dễ đối chiếu.",
+      href: "#pha-he-cong-khai",
       icon: Users,
     },
     {
       title: "Phả đồ",
-      desc: "Trực quan hóa dữ liệu Phả hệ thành sơ đồ cây để các thế hệ dễ tra cứu.",
-      href: "/login",
+      desc: "Trực quan hóa phần phả hệ đã publish thành sơ đồ cây tóm tắt qua các đời.",
+      href: "#pha-he-cong-khai",
       icon: TreePine,
     },
     {
@@ -61,6 +104,14 @@ export default function HomePage() {
       href: "/nhan-vat-tieu-bieu",
       icon: Star,
     },
+  ];
+  const rootProfile = publicGenealogyProfiles[0];
+  const secondGeneration = publicGenealogyProfiles.slice(1, 3);
+  const thirdGeneration = publicGenealogyProfiles.slice(3);
+  const genealogyStats = [
+    { label: "Trạng thái", value: "Đã publish", desc: "Hiển thị công khai trên landing page." },
+    { label: "Hồ sơ mẫu", value: `${publicGenealogyProfiles.length} người`, desc: "Dữ liệu minh họa chờ xác nhận." },
+    { label: "Số đời", value: "3 đời", desc: "Từ gốc phả hệ đến các nhánh cháu." },
   ];
 
   return (
@@ -89,8 +140,16 @@ export default function HomePage() {
                 {siteContent.tagline}
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <Link href="/login" className="btn-primary bg-white text-stone-900 hover:bg-amber-50">
-                  Đăng nhập để xem gia phả
+                {/*
+                  Login CTA is temporarily disabled while the landing page
+                  publishes a public genealogy preview.
+                  <Link href="/login" className="btn-primary bg-white text-stone-900 hover:bg-amber-50">
+                    Đăng nhập để xem gia phả
+                    <ArrowRight className="size-5" />
+                  </Link>
+                */}
+                <Link href="#pha-he-cong-khai" className="btn-primary bg-white text-stone-900 hover:bg-amber-50">
+                  Xem phả hệ đã publish
                   <ArrowRight className="size-5" />
                 </Link>
                 <Link href="/pha-ky" className="btn border-white/30 bg-white/10 text-white hover:bg-white/20">
@@ -150,10 +209,64 @@ export default function HomePage() {
           </div>
         </PublicSection>
 
+        <div id="pha-he-cong-khai" className="scroll-mt-24">
+          <PublicSection
+            eyebrow="Phả hệ công khai"
+            title="Phả hệ đã publish trên landing page"
+            description="Một phần thông tin gia phả minh họa được đưa ra trang chủ để con cháu dễ xem thử cấu trúc. Dữ liệu riêng tư vẫn cần được Ban trị sự xác nhận trước khi công bố."
+            className="pb-16"
+          >
+            <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+              <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+                {genealogyStats.map((item) => (
+                  <div key={item.label} className="rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">
+                      {item.label}
+                    </p>
+                    <p className="mt-3 font-serif text-3xl font-bold text-stone-900">
+                      {item.value}
+                    </p>
+                    <p className="mt-3 text-sm leading-6 text-stone-600">
+                      {item.desc}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="overflow-x-auto rounded-3xl bg-stone-100/70 p-4 sm:p-6">
+                <div className="flex min-w-[620px] flex-col items-center gap-5">
+                  <PublicGenealogyCard
+                    profile={rootProfile}
+                    className="w-full max-w-md"
+                  />
+                  <div className="h-8 w-px bg-stone-300" />
+                  <div className="grid w-full gap-4 md:grid-cols-2">
+                    {secondGeneration.map((profile) => (
+                      <PublicGenealogyCard
+                        key={profile.fullName}
+                        profile={profile}
+                      />
+                    ))}
+                  </div>
+                  <div className="h-8 w-px bg-stone-300" />
+                  <div className="grid w-full gap-4 md:grid-cols-2">
+                    {thirdGeneration.map((profile) => (
+                      <PublicGenealogyCard
+                        key={profile.fullName}
+                        profile={profile}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </PublicSection>
+        </div>
+
         <PublicSection
           eyebrow="Chức năng"
           title="Các phân hệ theo brief Hồ Văn Tộc"
-          description="Trang công khai dùng cho nội dung đã được phép chia sẻ; dữ liệu gia phả chi tiết vẫn nằm trong khu vực đăng nhập."
+          description="Trang công khai dùng cho nội dung đã được phép chia sẻ; Phả hệ và Phả đồ hiện trỏ về bản publish trên landing page."
           className="pb-16"
         >
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

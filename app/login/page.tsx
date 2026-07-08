@@ -17,6 +17,55 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 export default function LoginPage() {
+  if (process.env.NEXT_PUBLIC_ENABLE_LOGIN === "true") {
+    return <LoginForm />;
+  }
+
+  return <LoginDisabledPage />;
+}
+
+function LoginDisabledPage() {
+  return (
+    <div className="relative flex min-h-screen flex-col overflow-hidden bg-[#fafaf9] selection:bg-amber-200 selection:text-amber-900">
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-size-[24px_24px]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_-30%,#fef3c7,transparent)]" />
+
+      <div className="relative z-10 flex flex-1 items-center justify-center px-4 py-12">
+        <div className="w-full max-w-xl rounded-3xl border border-white/80 bg-white/70 p-8 text-center shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-xl sm:p-10">
+          <Link
+            href="/"
+            className="mx-auto mb-6 flex size-16 items-center justify-center rounded-2xl bg-white text-amber-600 shadow-sm ring-1 ring-stone-100 transition-all hover:scale-105 hover:shadow-md"
+          >
+            <Shield className="size-8" />
+          </Link>
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">
+            Phả hệ public
+          </p>
+          <h1 className="mt-3 font-serif text-3xl font-bold text-stone-900 sm:text-4xl">
+            Đăng nhập đang tạm tắt
+          </h1>
+          <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-stone-600 sm:text-base">
+            Landing page hiện dùng bản phả hệ đã publish. Form đăng nhập cũ
+            được giữ lại sau feature flag để có thể bật lại khi cần.
+          </p>
+          <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+            <Link href="/#pha-he-cong-khai" className="btn-primary py-3">
+              Xem phả hệ đã publish
+            </Link>
+            <Link href="/lien-he" className="btn py-3">
+              Gửi bổ sung gia phả
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <Footer className="relative z-10 mt-auto border-none bg-transparent" />
+    </div>
+  );
+}
+
+// Login form is kept behind NEXT_PUBLIC_ENABLE_LOGIN for easy restoration.
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);

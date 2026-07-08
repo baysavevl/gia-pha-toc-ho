@@ -22,9 +22,12 @@ export default function PublicFooter() {
             <Link href="/lien-he" className="btn py-2 text-sm">
               Liên hệ
             </Link>
-            <Link href="/login" className="btn-primary py-2 text-sm">
-              Thành viên đăng nhập
-            </Link>
+            {/*
+              Login is temporarily disabled while the public genealogy preview is published.
+              <Link href="/login" className="btn-primary py-2 text-sm">
+                Thành viên đăng nhập
+              </Link>
+            */}
           </div>
         </div>
       </div>

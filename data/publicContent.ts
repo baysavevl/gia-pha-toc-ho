@@ -55,6 +55,15 @@ export interface ModuleBrief {
   management: string;
 }
 
+export interface PublicGenealogyProfile {
+  fullName: string;
+  generation: string;
+  branch: string;
+  lifespan: string;
+  relationLabel: string;
+  summary: string;
+}
+
 export const siteContent = {
   name: "Hồ Văn Tộc",
   tagline:
@@ -66,6 +75,54 @@ export const siteContent = {
   landscapeImage: "/heritage/heritage-landscape.png",
   responsivePreviewImage: "/brief/responsive-preview.png",
 };
+
+export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
+  {
+    fullName: "Hồ Văn Khởi",
+    generation: "Đời 1",
+    branch: "Thủy tổ",
+    lifespan: "1888 - 1959",
+    relationLabel: "Gốc phả hệ",
+    summary:
+      "Thông tin minh họa cho vị trí khởi phả, dùng để Ban trị sự rà soát trước khi thay bằng dữ liệu đã xác nhận.",
+  },
+  {
+    fullName: "Hồ Văn Định",
+    generation: "Đời 2",
+    branch: "Chi trưởng",
+    lifespan: "1914 - 1987",
+    relationLabel: "Con trưởng",
+    summary:
+      "Đại diện nhánh trưởng trong bản publish, có thể bổ sung quê quán, nghề nghiệp và ghi chú công đức khi được duyệt.",
+  },
+  {
+    fullName: "Hồ Thị Sen",
+    generation: "Đời 2",
+    branch: "Chi thứ",
+    lifespan: "1919 - 1998",
+    relationLabel: "Con thứ",
+    summary:
+      "Hồ sơ nữ giới được giữ trong phả hệ để con cháu tra cứu mối liên hệ giữa các nhánh nội ngoại.",
+  },
+  {
+    fullName: "Hồ Văn Minh",
+    generation: "Đời 3",
+    branch: "Nhánh Đông",
+    lifespan: "1946 - nay",
+    relationLabel: "Cháu nội",
+    summary:
+      "Mẫu hồ sơ người còn sống chỉ hiển thị dữ liệu tối giản, tránh công khai thông tin riêng tư khi chưa được cho phép.",
+  },
+  {
+    fullName: "Hồ Thị Mai",
+    generation: "Đời 3",
+    branch: "Nhánh Tây",
+    lifespan: "1952 - nay",
+    relationLabel: "Cháu nội",
+    summary:
+      "Thông tin minh họa cho một nhánh đã tách hộ, có thể liên kết đến bài viết hoặc tư liệu gia đình sau này.",
+  },
+];
 
 export const audienceGroups: AudienceGroup[] = [
   {
@@ -93,9 +150,9 @@ export const audienceGroups: AudienceGroup[] = [
   {
     title: "Thành viên dòng họ",
     description:
-      "Con cháu Hồ Văn Tộc được cấp tài khoản để tra cứu và đóng góp tư liệu theo quyền được cấp.",
+      "Con cháu Hồ Văn Tộc cùng đối chiếu bản publish và gửi bổ sung qua kênh liên hệ chính thức.",
     permissions: [
-      "Tra cứu Phả hệ, Phả đồ và thông tin thành viên theo phân quyền.",
+      "Tra cứu phần Phả hệ, Phả đồ đã được Ban trị sự cho phép công khai.",
       "Theo dõi tin tức, thông báo và hoạt động của dòng họ.",
       "Đăng ký tham gia sự kiện khi Ban trị sự mở đăng ký.",
       "Gửi yêu cầu bổ sung thông tin, hình ảnh, tài liệu hoặc tư liệu lịch sử.",
@@ -106,9 +163,9 @@ export const audienceGroups: AudienceGroup[] = [
     description:
       "Người không có tài khoản chỉ được xem nội dung công khai đã được Ban trị sự cho phép.",
     permissions: [
-      "Xem giới thiệu, lịch sử hình thành, bài viết và hoạt động công khai.",
+      "Xem giới thiệu, lịch sử hình thành, bản phả hệ publish, bài viết và hoạt động công khai.",
       "Xem thông tin liên hệ và hướng dẫn di chuyển đến nhà thờ tộc.",
-      "Không truy cập dữ liệu gia phả chi tiết, thông tin cá nhân, cây phả hệ đầy đủ hoặc tài liệu nội bộ.",
+      "Không xem dữ liệu riêng tư, thông tin liên hệ cá nhân hoặc tài liệu nội bộ chưa được công bố.",
     ],
   },
 ];
@@ -135,10 +192,10 @@ export const moduleBriefs: ModuleBrief[] = [
   },
   {
     title: "Phả hệ",
-    href: "/login",
+    href: "#pha-he-cong-khai",
     image: "/brief/person-profile.png",
     summary:
-      "Nguồn dữ liệu gốc của hệ thống, lưu hồ sơ cá nhân và quan hệ gia đình theo từng thành viên.",
+      "Bản publish công khai của nguồn dữ liệu gốc, chỉ hiển thị các thông tin đã được phép chia sẻ.",
     details: [
       "Họ tên, tên khác, tên thường gọi, pháp danh, giới tính, ảnh chân dung, ngày sinh và ngày mất.",
       "Nơi sinh, quê quán, địa chỉ hiện nay nếu được phép công khai.",
@@ -154,10 +211,10 @@ export const moduleBriefs: ModuleBrief[] = [
   },
   {
     title: "Phả đồ",
-    href: "/login",
+    href: "#pha-he-cong-khai",
     image: "/brief/family-tree.png",
     summary:
-      "Trực quan hóa dữ liệu Phả hệ thành sơ đồ cây, thể hiện quan hệ huyết thống qua các thế hệ.",
+      "Trực quan hóa phần Phả hệ đã publish thành sơ đồ cây tóm tắt qua các thế hệ.",
     details: [
       "Thủy tổ, các thế hệ kế tiếp, quan hệ cha - mẹ - con và vợ/chồng.",
       "Các chi, phái, nhánh và tình trạng còn sống hoặc đã mất.",
