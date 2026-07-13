@@ -55,6 +55,17 @@ export interface ModuleBrief {
   management: string;
 }
 
+export interface PublicProfileDetail {
+  label: string;
+  value: string;
+}
+
+export interface PublicRelatedPerson {
+  fullName: string;
+  relation: string;
+  note: string;
+}
+
 export interface PublicGenealogyProfile {
   fullName: string;
   generation: string;
@@ -62,14 +73,15 @@ export interface PublicGenealogyProfile {
   lifespan: string;
   relationLabel: string;
   summary: string;
+  details: PublicProfileDetail[];
+  relatedPeople: PublicRelatedPerson[];
 }
 
 export const siteContent = {
   name: "Hồ Văn Tộc",
-  tagline:
-    "Gia phả, phả ký và phả đồ đã publish của dòng họ Hồ Văn.",
+  tagline: "Gia phả, phả ký và phả đồ công khai của dòng họ Hồ Văn.",
   description:
-    "Trang công khai của Hồ Văn Tộc hiển thị các nội dung đã được publish: phả ký, hồ sơ phả hệ, phả đồ, tư liệu và thông tin liên hệ.",
+    "Trang công khai của Hồ Văn Tộc hiển thị phả ký, hồ sơ phả hệ, phả đồ, tư liệu và thông tin liên hệ.",
   heroImage: "/heritage/temple-gate.png",
   quietImage: "/heritage/heritage-mist.png",
   landscapeImage: "/heritage/heritage-landscape.png",
@@ -85,6 +97,31 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     relationLabel: "Gốc phả hệ",
     summary:
       "Vị trí khởi phả của nhánh đang được công khai, là điểm nối chính cho các đời kế tiếp.",
+    details: [
+      { label: "Họ tên", value: "Hồ Văn Khởi" },
+      { label: "Đời", value: "Đời 1" },
+      { label: "Chi / nhánh", value: "Thủy tổ" },
+      { label: "Niên đại", value: "1888 - 1959" },
+      { label: "Vai trò", value: "Gốc phả hệ công khai" },
+      { label: "Ghi chú", value: "Điểm nối chính cho các đời sau." },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Văn Định",
+        relation: "Con trưởng",
+        note: "Đại diện chi trưởng đời 2.",
+      },
+      {
+        fullName: "Hồ Thị Sen",
+        relation: "Con thứ",
+        note: "Đại diện chi thứ đời 2.",
+      },
+      {
+        fullName: "Hồ Văn Minh",
+        relation: "Cháu đời sau",
+        note: "Đại diện nhánh Đông đời 3.",
+      },
+    ],
   },
   {
     fullName: "Hồ Văn Định",
@@ -94,6 +131,31 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     relationLabel: "Con trưởng",
     summary:
       "Đại diện chi trưởng, nối tiếp dòng chính và mở ra các nhánh con trong bản phả đồ.",
+    details: [
+      { label: "Họ tên", value: "Hồ Văn Định" },
+      { label: "Đời", value: "Đời 2" },
+      { label: "Chi / nhánh", value: "Chi trưởng" },
+      { label: "Niên đại", value: "1914 - 1987" },
+      { label: "Vai trò", value: "Con trưởng" },
+      { label: "Ghi chú", value: "Nối tiếp dòng chính trong phả đồ." },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Văn Khởi",
+        relation: "Cha",
+        note: "Gốc phả hệ đời 1.",
+      },
+      {
+        fullName: "Hồ Thị Sen",
+        relation: "Cùng đời",
+        note: "Đại diện chi thứ đời 2.",
+      },
+      {
+        fullName: "Hồ Văn Minh",
+        relation: "Đời sau",
+        note: "Đại diện nhánh Đông đời 3.",
+      },
+    ],
   },
   {
     fullName: "Hồ Thị Sen",
@@ -103,6 +165,31 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     relationLabel: "Con thứ",
     summary:
       "Hồ sơ thuộc đời thứ hai, giúp đối chiếu quan hệ giữa các nhánh nội ngoại.",
+    details: [
+      { label: "Họ tên", value: "Hồ Thị Sen" },
+      { label: "Đời", value: "Đời 2" },
+      { label: "Chi / nhánh", value: "Chi thứ" },
+      { label: "Niên đại", value: "1919 - 1998" },
+      { label: "Vai trò", value: "Con thứ" },
+      { label: "Ghi chú", value: "Hồ sơ đời 2 trong bản công khai." },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Văn Khởi",
+        relation: "Cha",
+        note: "Gốc phả hệ đời 1.",
+      },
+      {
+        fullName: "Hồ Văn Định",
+        relation: "Cùng đời",
+        note: "Đại diện chi trưởng đời 2.",
+      },
+      {
+        fullName: "Hồ Thị Mai",
+        relation: "Đời sau",
+        note: "Đại diện nhánh Tây đời 3.",
+      },
+    ],
   },
   {
     fullName: "Hồ Văn Minh",
@@ -112,6 +199,31 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     relationLabel: "Cháu nội",
     summary:
       "Đại diện đời thứ ba thuộc nhánh Đông, đang được hiển thị với thông tin công khai tối giản.",
+    details: [
+      { label: "Họ tên", value: "Hồ Văn Minh" },
+      { label: "Đời", value: "Đời 3" },
+      { label: "Chi / nhánh", value: "Nhánh Đông" },
+      { label: "Niên đại", value: "1946 - nay" },
+      { label: "Vai trò", value: "Cháu nội" },
+      { label: "Ghi chú", value: "Thông tin công khai tối giản." },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Văn Khởi",
+        relation: "Ông",
+        note: "Gốc phả hệ đời 1.",
+      },
+      {
+        fullName: "Hồ Văn Định",
+        relation: "Đời trước",
+        note: "Đại diện chi trưởng đời 2.",
+      },
+      {
+        fullName: "Hồ Thị Mai",
+        relation: "Cùng đời",
+        note: "Đại diện nhánh Tây đời 3.",
+      },
+    ],
   },
   {
     fullName: "Hồ Thị Mai",
@@ -120,7 +232,32 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     lifespan: "1952 - nay",
     relationLabel: "Cháu nội",
     summary:
-      "Đại diện đời thứ ba thuộc nhánh Tây, nối tiếp dữ liệu phả hệ đã được publish.",
+      "Đại diện đời thứ ba thuộc nhánh Tây, nối tiếp dữ liệu phả hệ đang công khai.",
+    details: [
+      { label: "Họ tên", value: "Hồ Thị Mai" },
+      { label: "Đời", value: "Đời 3" },
+      { label: "Chi / nhánh", value: "Nhánh Tây" },
+      { label: "Niên đại", value: "1952 - nay" },
+      { label: "Vai trò", value: "Cháu nội" },
+      { label: "Ghi chú", value: "Nối tiếp dữ liệu phả hệ đang công khai." },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Văn Khởi",
+        relation: "Ông",
+        note: "Gốc phả hệ đời 1.",
+      },
+      {
+        fullName: "Hồ Thị Sen",
+        relation: "Đời trước",
+        note: "Đại diện chi thứ đời 2.",
+      },
+      {
+        fullName: "Hồ Văn Minh",
+        relation: "Cùng đời",
+        note: "Đại diện nhánh Đông đời 3.",
+      },
+    ],
   },
 ];
 
@@ -150,7 +287,7 @@ export const audienceGroups: AudienceGroup[] = [
   {
     title: "Thành viên dòng họ",
     description:
-      "Con cháu Hồ Văn Tộc cùng đối chiếu bản publish và gửi bổ sung qua kênh liên hệ chính thức.",
+      "Con cháu Hồ Văn Tộc cùng đối chiếu bản công khai và gửi bổ sung qua kênh liên hệ chính thức.",
     permissions: [
       "Tra cứu phần Phả hệ, Phả đồ đã được Ban trị sự cho phép công khai.",
       "Theo dõi tin tức, thông báo và hoạt động của dòng họ.",
@@ -163,7 +300,7 @@ export const audienceGroups: AudienceGroup[] = [
     description:
       "Người không có tài khoản chỉ được xem nội dung công khai đã được Ban trị sự cho phép.",
     permissions: [
-      "Xem giới thiệu, lịch sử hình thành, bản phả hệ publish, bài viết và hoạt động công khai.",
+      "Xem giới thiệu, lịch sử hình thành, bản phả hệ công khai, bài viết và hoạt động công khai.",
       "Xem thông tin liên hệ và hướng dẫn di chuyển đến nhà thờ tộc.",
       "Không xem dữ liệu riêng tư, thông tin liên hệ cá nhân hoặc tài liệu nội bộ chưa được công bố.",
     ],
@@ -195,7 +332,7 @@ export const moduleBriefs: ModuleBrief[] = [
     href: "#pha-he-cong-khai",
     image: "/brief/person-profile.png",
     summary:
-      "Bản publish công khai của nguồn dữ liệu gốc, chỉ hiển thị các thông tin đã được phép chia sẻ.",
+      "Bản công khai của nguồn dữ liệu gốc, chỉ hiển thị các thông tin đã được phép chia sẻ.",
     details: [
       "Họ tên, tên khác, tên thường gọi, pháp danh, giới tính, ảnh chân dung, ngày sinh và ngày mất.",
       "Nơi sinh, quê quán, địa chỉ hiện nay nếu được phép công khai.",
@@ -214,7 +351,7 @@ export const moduleBriefs: ModuleBrief[] = [
     href: "#pha-he-cong-khai",
     image: "/brief/family-tree.png",
     summary:
-      "Trực quan hóa phần Phả hệ đã publish thành sơ đồ cây tóm tắt qua các thế hệ.",
+      "Trực quan hóa phần Phả hệ công khai thành sơ đồ cây tóm tắt qua các thế hệ.",
     details: [
       "Thủy tổ, các thế hệ kế tiếp, quan hệ cha - mẹ - con và vợ/chồng.",
       "Các chi, phái, nhánh và tình trạng còn sống hoặc đã mất.",
@@ -318,7 +455,7 @@ export const phaKyEntries: PublicContentEntry[] = [
     body: [
       "Dòng họ Hồ Văn ghi nhớ thủy tổ, nơi khai cơ và những dấu mốc đầu tiên qua các câu chuyện được truyền lại trong gia đình.",
       "Các nhánh đời sau tiếp nối việc thờ phụng tổ tiên, giữ nề nếp họ tộc và duy trì liên hệ giữa những gia đình cùng huyết thống.",
-      "Những tư liệu đã publish trong chương này là phần mở đầu cho việc đối chiếu nguồn gốc, nhân vật và địa danh liên quan đến phả hệ.",
+      "Những tư liệu công khai trong chương này là phần mở đầu cho việc đối chiếu nguồn gốc, nhân vật và địa danh liên quan đến phả hệ.",
     ],
   },
   {

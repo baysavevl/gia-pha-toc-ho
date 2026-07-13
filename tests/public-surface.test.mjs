@@ -37,24 +37,47 @@ test("public surface does not expose active login entry points", () => {
 
 test("landing page publishes genealogy results without brief/concept sections", () => {
   const pageSource = readProjectFile("app/page.tsx");
+  const explorerSource = readProjectFile("components/PublicGenealogyExplorer.tsx");
+  const landingSource = `${pageSource}\n${explorerSource}`;
   const contentSource = readProjectFile("data/publicContent.ts");
   const publishedProfiles = contentSource.match(/relationLabel:/g) ?? [];
 
-  assert.match(pageSource, /id="pha-he-cong-khai"/);
-  assert.match(pageSource, /id="pha-do-cong-khai"/);
-  assert.match(pageSource, /publicGenealogyProfiles/);
-  assert.match(pageSource, /Đã publish/);
-  assert.match(pageSource, /min-w-\[1100px\]/);
-  assert.doesNotMatch(pageSource, /moduleBriefs/);
-  assert.doesNotMatch(pageSource, /audienceGroups/);
-  assert.doesNotMatch(pageSource, /Các phân hệ theo brief/);
-  assert.doesNotMatch(pageSource, /Cập nhật brief/);
-  assert.doesNotMatch(pageSource, /Đối tượng sử dụng/);
+  assert.match(landingSource, /id="pha-he-cong-khai"/);
+  assert.match(landingSource, /id="pha-do-cong-khai"/);
+  assert.match(landingSource, /publicGenealogyProfiles/);
+  assert.match(landingSource, /Bản công khai/);
+  assert.match(landingSource, /Phả đồ dạng cây dọc/);
+  assert.match(landingSource, /VerticalLine/);
+  assert.doesNotMatch(landingSource, /Đã publish/);
+  assert.doesNotMatch(landingSource, /min-w-\[1100px\]/);
+  assert.doesNotMatch(landingSource, /moduleBriefs/);
+  assert.doesNotMatch(landingSource, /audienceGroups/);
+  assert.doesNotMatch(landingSource, /Các phân hệ theo brief/);
+  assert.doesNotMatch(landingSource, /Cập nhật brief/);
+  assert.doesNotMatch(landingSource, /Đối tượng sử dụng/);
   assert.match(contentSource, /export const publicGenealogyProfiles/);
   assert.ok(
     publishedProfiles.length >= 5,
     "expected at least five public genealogy profiles",
   );
+});
+
+test("public genealogy cards expose details and related people", () => {
+  const contentSource = readProjectFile("data/publicContent.ts");
+  const explorerSource = readProjectFile("components/PublicGenealogyExplorer.tsx");
+
+  const detailSets = contentSource.match(/details:\s*\[/g) ?? [];
+  const relationSets = contentSource.match(/relatedPeople:\s*\[/g) ?? [];
+
+  assert.ok(detailSets.length >= 5, "expected details for every public profile");
+  assert.ok(
+    relationSets.length >= 5,
+    "expected related people for every public profile",
+  );
+  assert.match(explorerSource, /use client/);
+  assert.match(explorerSource, /setActiveProfile/);
+  assert.match(explorerSource, /Người liên quan/);
+  assert.match(explorerSource, /Chi tiết hồ sơ/);
 });
 
 test("admin has a dedicated login route and legacy login redirects there", () => {

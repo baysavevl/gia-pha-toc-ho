@@ -78,7 +78,7 @@ export default function LandingHero({ siteName }: LandingHeroProps) {
             className="group inline-flex items-center justify-center gap-2 px-8 py-4 sm:px-10 sm:py-5 text-base sm:text-lg font-bold text-white bg-primary border border-stone-800 hover:bg-stone-800 hover:border-stone-700 rounded-xl shadow-xl shadow-stone-900/10 hover:shadow-2xl hover:shadow-stone-900/20 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 w-full sm:w-auto overflow-hidden relative"
           >
             <span className="relative z-10 flex items-center gap-3">
-              Xem phả hệ đã publish
+              Xem phả hệ công khai
               <ArrowRight className="size-5 group-hover:translate-x-1.5 transition-transform" />
             </span>
           </Link>

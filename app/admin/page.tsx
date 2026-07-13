@@ -1,7 +1,7 @@
 import AdminLoginForm from "@/components/AdminLoginForm";
 
 export const metadata = {
-  title: "Admin | Hồ Văn Tộc",
+  title: "Quản trị | Hồ Văn Tộc",
   description: "Đăng nhập quản trị phả hệ, phả ký và phả đồ.",
 };
 

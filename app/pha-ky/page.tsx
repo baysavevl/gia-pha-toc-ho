@@ -17,7 +17,7 @@ export default function PhaKyPage() {
         <PublicSection
           eyebrow="Phả ký"
           title="Lịch sử và truyền thống dòng họ"
-          description="Các chương phả ký đang được publish để con cháu đọc, tra cứu và đối chiếu với phả hệ."
+          description="Các chương phả ký đang công khai để con cháu đọc, tra cứu và đối chiếu với phả hệ."
         >
           <div className="grid gap-5 md:grid-cols-2">
             {phaKyEntries.map((entry) => (

@@ -65,18 +65,18 @@ export default function AdminLoginForm() {
             <Link
               href="/"
               className="mx-auto mb-5 flex size-16 items-center justify-center rounded-2xl bg-white text-amber-700 shadow-sm ring-1 ring-stone-100 transition-all hover:scale-105 hover:shadow-md"
-              aria-label="Về trang publish"
+              aria-label="Về trang công khai"
             >
               <Shield className="size-8" />
             </Link>
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">
-              Admin
+              Quản trị
             </p>
             <h1 className="mt-3 font-serif text-3xl font-bold text-stone-900 sm:text-4xl">
               Đăng nhập quản trị
             </h1>
             <p className="mt-3 text-sm leading-6 text-stone-600">
-              Quản lý phả hệ, phả ký, phả đồ và cấu hình nội dung publish.
+              Quản lý phả hệ, phả ký, phả đồ và cấu hình nội dung công khai.
             </p>
             {isDemo && (
               <div className="mt-4 rounded-xl border border-amber-200/70 bg-amber-50 p-3 text-[13px] font-semibold text-amber-800">
@@ -153,7 +153,7 @@ export default function AdminLoginForm() {
               Cấu hình
             </Link>
             <Link href="/" className="btn w-full py-3 text-sm">
-              Trang publish
+              Trang công khai
             </Link>
           </div>
         </section>
@@ -164,7 +164,7 @@ export default function AdminLoginForm() {
         className="absolute top-6 left-6 z-20 flex items-center gap-2 rounded-full border border-stone-200 bg-white/70 px-5 py-2.5 text-sm font-semibold text-stone-500 shadow-sm transition-all hover:border-stone-300 hover:text-stone-900 hover:shadow-md"
       >
         <ArrowLeft className="size-4" />
-        Trang publish
+        Trang công khai
       </Link>
 
       <Footer className="relative z-10 mt-auto border-none bg-transparent" />
