@@ -94,19 +94,30 @@ export default function PublicGenealogyExplorer({
   profiles: PublicGenealogyProfile[];
 }) {
   const rootProfile = profiles[0];
-  const secondGeneration = profiles.slice(1, 3);
-  const thirdGeneration = profiles.slice(3);
-  const branchColumns = secondGeneration.map((profile, index) => ({
-    parent: profile,
-    child: thirdGeneration[index],
-  }));
+  const generationRows = profiles.reduce<
+    { generation: string; profiles: PublicGenealogyProfile[] }[]
+  >((rows, profile) => {
+    const existingRow = rows.find((row) => row.generation === profile.generation);
+    if (existingRow) {
+      existingRow.profiles.push(profile);
+      return rows;
+    }
+
+    rows.push({ generation: profile.generation, profiles: [profile] });
+    return rows;
+  }, []);
+  const branchCount = new Set(
+    profiles
+      .map((profile) => profile.branch)
+      .filter((branch) => branch !== "Thủy tổ"),
+  ).size;
   const genealogyStats = [
     {
       label: "Hồ sơ công khai",
       value: `${profiles.length} hồ sơ`,
     },
-    { label: "Số đời", value: "3 đời" },
-    { label: "Nhánh", value: "2 nhánh" },
+    { label: "Số đời", value: `${generationRows.length} đời` },
+    { label: "Nhánh", value: `${branchCount} nhánh` },
   ];
 
   return (
@@ -169,37 +180,30 @@ export default function PublicGenealogyExplorer({
 
           <div className="rounded-3xl border border-stone-200 bg-white/70 p-3 shadow-soft backdrop-blur-xl">
             <div className="overflow-hidden rounded-2xl border border-white bg-neutral p-5 sm:p-8 lg:p-10">
-              <div className="mx-auto flex w-full max-w-5xl flex-col items-center">
-                {rootProfile && (
-                  <PublishedTreeNode
-                    profile={rootProfile}
-                    featured
-                  />
-                )}
-
-                <VerticalLine />
-
-                <div className="relative w-full">
-                  <div className="absolute left-1/2 top-0 hidden h-8 w-px -translate-x-1/2 bg-stone-300 sm:block" />
-                  <div className="absolute left-1/4 right-1/4 top-8 hidden h-px bg-stone-300 sm:block" />
-                  <div className="grid gap-7 pt-0 sm:grid-cols-2 sm:pt-8">
-                    {branchColumns.map(({ parent, child }) => (
-                      <div
-                        key={parent.fullName}
-                        className="flex min-w-0 flex-col items-center"
-                      >
-                        <div className="hidden h-8 w-px bg-stone-300 sm:block" />
-                        <PublishedTreeNode profile={parent} />
-                        {child && (
-                          <>
-                            <VerticalLine className="h-8" />
-                            <PublishedTreeNode profile={child} />
-                          </>
-                        )}
-                      </div>
-                    ))}
+              <div className="mx-auto flex w-full max-w-6xl flex-col items-center">
+                {generationRows.map((row, index) => (
+                  <div key={row.generation} className="w-full">
+                    {index > 0 && <VerticalLine className="h-8" />}
+                    <div className="mb-4 text-center text-xs font-bold uppercase tracking-[0.16em] text-stone-500">
+                      {row.generation}
+                    </div>
+                    <div
+                      className={`grid justify-items-center gap-5 ${
+                        row.profiles.length === 1
+                          ? "grid-cols-1"
+                          : "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                      }`}
+                    >
+                      {row.profiles.map((profile) => (
+                        <PublishedTreeNode
+                          key={profile.fullName}
+                          profile={profile}
+                          featured={profile === rootProfile}
+                        />
+                      ))}
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>

@@ -57,9 +57,12 @@ test("landing page publishes genealogy results without brief/concept sections", 
   assert.doesNotMatch(landingSource, /Đối tượng sử dụng/);
   assert.match(contentSource, /export const publicGenealogyProfiles/);
   assert.ok(
-    publishedProfiles.length >= 5,
-    "expected at least five public genealogy profiles",
+    publishedProfiles.length >= 15,
+    "expected at least fifteen public genealogy profiles",
   );
+  assert.doesNotMatch(explorerSource, /slice\(1,\s*3\)/);
+  assert.doesNotMatch(explorerSource, /slice\(3\)/);
+  assert.match(explorerSource, /generationRows/);
 });
 
 test("public genealogy cards expose details and related people", () => {

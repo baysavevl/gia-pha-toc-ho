@@ -106,6 +106,32 @@ export const siteContent = {
   responsivePreviewImage: "/brief/responsive-preview.png",
 };
 
+type PublicGenealogyProfileSeed = Omit<PublicGenealogyProfile, "details"> & {
+  role: string;
+  note: string;
+  extraDetails?: PublicProfileDetail[];
+};
+
+function makePublicGenealogyProfile({
+  role,
+  note,
+  extraDetails = [],
+  ...profile
+}: PublicGenealogyProfileSeed): PublicGenealogyProfile {
+  return {
+    ...profile,
+    details: [
+      { label: "Họ tên", value: profile.fullName },
+      { label: "Đời", value: profile.generation },
+      { label: "Chi / nhánh", value: profile.branch },
+      { label: "Niên đại", value: profile.lifespan },
+      { label: "Vai trò", value: role },
+      ...extraDetails,
+      { label: "Ghi chú", value: note },
+    ],
+  };
+}
+
 export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
   {
     fullName: "Hồ Văn Khởi",
@@ -277,6 +303,326 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       },
     ],
   },
+  makePublicGenealogyProfile({
+    fullName: "Hồ Văn Lộc",
+    generation: "Đời 3",
+    branch: "Nhánh Nam",
+    lifespan: "1950 - 2016",
+    relationLabel: "Cháu nội",
+    summary:
+      "Đại diện nhánh Nam, bổ sung trường hợp hồ sơ đã mất nhưng còn thông tin đối chiếu theo chi.",
+    role: "Cháu nội, nhánh Nam",
+    note: "Hồ sơ đã mất, dùng để kiểm tra hiển thị niên đại và liên kết đời sau.",
+    extraDetails: [
+      { label: "Tình trạng", value: "Đã mất" },
+      { label: "Trường hợp", value: "Nhánh phụ có hậu duệ đời sau" },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Văn Khởi",
+        relation: "Ông",
+        note: "Gốc phả hệ đời 1.",
+      },
+      {
+        fullName: "Hồ Văn Định",
+        relation: "Bác / đời trước",
+        note: "Đại diện chi trưởng đời 2.",
+      },
+      {
+        fullName: "Hồ Văn Phúc",
+        relation: "Con",
+        note: "Hồ sơ đời 4 thuộc nhánh Nam.",
+      },
+    ],
+  }),
+  makePublicGenealogyProfile({
+    fullName: "Nguyễn Thị Lan",
+    generation: "Đời 3",
+    branch: "Dâu chi trưởng",
+    lifespan: "1954 - nay",
+    relationLabel: "Con dâu",
+    summary:
+      "Hồ sơ người phối ngẫu trong dòng họ, dùng để kiểm tra trường hợp khác họ nhưng liên kết theo hôn phối.",
+    role: "Con dâu chi trưởng",
+    note: "Khác họ Hồ nhưng vẫn xuất hiện trong bản công khai theo quan hệ hôn phối.",
+    extraDetails: [
+      { label: "Tình trạng", value: "Còn sống" },
+      { label: "Trường hợp", value: "Người phối ngẫu khác họ" },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Văn Minh",
+        relation: "Phu quân",
+        note: "Đại diện nhánh Đông đời 3.",
+      },
+      {
+        fullName: "Hồ Thị Hạnh",
+        relation: "Con",
+        note: "Hồ sơ đời 4 nhánh Đông.",
+      },
+      {
+        fullName: "Hồ Văn An",
+        relation: "Con",
+        note: "Hồ sơ đời 4 nhánh Đông xa quê.",
+      },
+    ],
+  }),
+  makePublicGenealogyProfile({
+    fullName: "Hồ Thị Hạnh",
+    generation: "Đời 4",
+    branch: "Nhánh Đông",
+    lifespan: "1975 - nay",
+    relationLabel: "Chắt gái",
+    summary:
+      "Hồ sơ đời thứ tư thuộc nhánh Đông, đại diện trường hợp nữ giới nối kết tư liệu gia đình.",
+    role: "Chắt gái",
+    note: "Dùng để kiểm tra hiển thị đời 4 và quan hệ cha mẹ trong trang chi tiết.",
+    extraDetails: [
+      { label: "Tình trạng", value: "Còn sống" },
+      { label: "Trường hợp", value: "Nữ giới đời 4" },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Văn Minh",
+        relation: "Cha",
+        note: "Đại diện nhánh Đông đời 3.",
+      },
+      {
+        fullName: "Nguyễn Thị Lan",
+        relation: "Mẹ",
+        note: "Hồ sơ phối ngẫu khác họ.",
+      },
+      {
+        fullName: "Hồ Văn An",
+        relation: "Anh em",
+        note: "Cùng đời 4 thuộc nhánh Đông.",
+      },
+    ],
+  }),
+  makePublicGenealogyProfile({
+    fullName: "Hồ Văn An",
+    generation: "Đời 4",
+    branch: "Nhánh Đông xa quê",
+    lifespan: "1978 - nay",
+    relationLabel: "Chắt trai",
+    summary:
+      "Hồ sơ đời thứ tư đang sinh sống xa quê, kiểm tra trường hợp có địa bàn cư trú khác nơi gốc.",
+    role: "Chắt trai",
+    note: "Đại diện nhóm con cháu xa quê nhưng vẫn giữ liên hệ phả hệ.",
+    extraDetails: [
+      { label: "Tình trạng", value: "Còn sống" },
+      { label: "Trường hợp", value: "Sinh sống xa quê" },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Văn Minh",
+        relation: "Cha",
+        note: "Đại diện nhánh Đông đời 3.",
+      },
+      {
+        fullName: "Nguyễn Thị Lan",
+        relation: "Mẹ",
+        note: "Hồ sơ phối ngẫu khác họ.",
+      },
+      {
+        fullName: "Hồ Minh Quân",
+        relation: "Con",
+        note: "Hậu duệ trẻ đời 5.",
+      },
+    ],
+  }),
+  makePublicGenealogyProfile({
+    fullName: "Hồ Minh Quân",
+    generation: "Đời 5",
+    branch: "Nhánh Đông hải ngoại",
+    lifespan: "2003 - nay",
+    relationLabel: "Hậu duệ trẻ",
+    summary:
+      "Hồ sơ thế hệ trẻ đang ở xa, dùng để kiểm tra tên ngắn, đời sâu và nhánh hải ngoại.",
+    role: "Hậu duệ đời 5",
+    note: "Đại diện nhóm hậu duệ trẻ trong bản công khai.",
+    extraDetails: [
+      { label: "Tình trạng", value: "Còn sống" },
+      { label: "Trường hợp", value: "Hậu duệ ở xa quê" },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Văn An",
+        relation: "Cha",
+        note: "Hồ sơ đời 4 nhánh Đông xa quê.",
+      },
+      {
+        fullName: "Hồ Thị Hạnh",
+        relation: "Cô",
+        note: "Cùng nhánh Đông.",
+      },
+      {
+        fullName: "Hồ Thiện Tâm",
+        relation: "Em họ",
+        note: "Hồ sơ nhận nuôi đời 5.",
+      },
+    ],
+  }),
+  makePublicGenealogyProfile({
+    fullName: "Hồ Thị Ngọc",
+    generation: "Đời 4",
+    branch: "Nhánh Tây",
+    lifespan: "1982 - nay",
+    relationLabel: "Chắt gái",
+    summary:
+      "Hồ sơ đời thứ tư thuộc nhánh Tây, đại diện trường hợp lập gia đình với người khác họ.",
+    role: "Chắt gái nhánh Tây",
+    note: "Dùng để kiểm tra quan hệ phối ngẫu và đời sau thuộc nhánh Tây.",
+    extraDetails: [
+      { label: "Tình trạng", value: "Còn sống" },
+      { label: "Trường hợp", value: "Có phối ngẫu khác họ" },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Thị Mai",
+        relation: "Mẹ",
+        note: "Đại diện nhánh Tây đời 3.",
+      },
+      {
+        fullName: "Trần Văn Lâm",
+        relation: "Phu quân",
+        note: "Hồ sơ con rể nhánh Tây.",
+      },
+      {
+        fullName: "Hồ Gia Bảo",
+        relation: "Con",
+        note: "Hồ sơ đời 5 nhánh Tây.",
+      },
+    ],
+  }),
+  makePublicGenealogyProfile({
+    fullName: "Trần Văn Lâm",
+    generation: "Đời 4",
+    branch: "Rể nhánh Tây",
+    lifespan: "1980 - nay",
+    relationLabel: "Con rể",
+    summary:
+      "Hồ sơ con rể trong bản phả hệ công khai, giúp kiểm tra người khác họ theo quan hệ hôn phối.",
+    role: "Con rể nhánh Tây",
+    note: "Khác họ Hồ nhưng liên kết với hồ sơ nhánh Tây qua hôn phối.",
+    extraDetails: [
+      { label: "Tình trạng", value: "Còn sống" },
+      { label: "Trường hợp", value: "Con rể khác họ" },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Thị Ngọc",
+        relation: "Phối ngẫu",
+        note: "Hồ sơ đời 4 nhánh Tây.",
+      },
+      {
+        fullName: "Hồ Gia Bảo",
+        relation: "Con",
+        note: "Hồ sơ đời 5 nhánh Tây.",
+      },
+      {
+        fullName: "Hồ Thị Mai",
+        relation: "Mẹ vợ",
+        note: "Đại diện nhánh Tây đời 3.",
+      },
+    ],
+  }),
+  makePublicGenealogyProfile({
+    fullName: "Hồ Gia Bảo",
+    generation: "Đời 5",
+    branch: "Nhánh Tây",
+    lifespan: "2012 - nay",
+    relationLabel: "Chút nội",
+    summary:
+      "Hồ sơ trẻ em đời thứ năm, dùng để kiểm tra dữ liệu thế hệ nhỏ tuổi và tên ngắn.",
+    role: "Hậu duệ đời 5",
+    note: "Thông tin công khai tối giản cho hồ sơ trẻ em.",
+    extraDetails: [
+      { label: "Tình trạng", value: "Còn sống" },
+      { label: "Trường hợp", value: "Hồ sơ trẻ em" },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Thị Ngọc",
+        relation: "Mẹ",
+        note: "Hồ sơ đời 4 nhánh Tây.",
+      },
+      {
+        fullName: "Trần Văn Lâm",
+        relation: "Cha",
+        note: "Hồ sơ con rể nhánh Tây.",
+      },
+      {
+        fullName: "Hồ Thị Mai",
+        relation: "Bà",
+        note: "Đại diện nhánh Tây đời 3.",
+      },
+    ],
+  }),
+  makePublicGenealogyProfile({
+    fullName: "Hồ Văn Phúc",
+    generation: "Đời 4",
+    branch: "Nhánh Nam",
+    lifespan: "1988 - 1988",
+    relationLabel: "Mất lúc nhỏ",
+    summary:
+      "Hồ sơ đời thứ tư có cùng năm sinh và mất, dùng để kiểm tra trường hợp mất lúc nhỏ.",
+    role: "Hậu duệ nhánh Nam",
+    note: "Trường hợp cần hiển thị trang trọng dù dữ liệu công khai rất ngắn.",
+    extraDetails: [
+      { label: "Tình trạng", value: "Đã mất" },
+      { label: "Trường hợp", value: "Sinh và mất cùng năm" },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Văn Lộc",
+        relation: "Cha",
+        note: "Đại diện nhánh Nam đời 3.",
+      },
+      {
+        fullName: "Hồ Văn Khởi",
+        relation: "Cụ",
+        note: "Gốc phả hệ đời 1.",
+      },
+      {
+        fullName: "Hồ Văn An",
+        relation: "Cùng đời",
+        note: "Cùng đời 4 nhưng khác nhánh.",
+      },
+    ],
+  }),
+  makePublicGenealogyProfile({
+    fullName: "Hồ Thiện Tâm",
+    generation: "Đời 5",
+    branch: "Nhánh Đông nhận nuôi",
+    lifespan: "2016 - nay",
+    relationLabel: "Con nuôi",
+    summary:
+      "Hồ sơ nhận nuôi trong bản công khai, giúp kiểm tra trường hợp quan hệ gia đình không theo huyết thống trực tiếp.",
+    role: "Con nuôi đời 5",
+    note: "Đại diện tình huống quan hệ nhận nuôi cần được ghi chú rõ trong phả hệ.",
+    extraDetails: [
+      { label: "Tình trạng", value: "Còn sống" },
+      { label: "Trường hợp", value: "Quan hệ nhận nuôi" },
+    ],
+    relatedPeople: [
+      {
+        fullName: "Hồ Văn An",
+        relation: "Cha nuôi",
+        note: "Hồ sơ đời 4 nhánh Đông xa quê.",
+      },
+      {
+        fullName: "Hồ Minh Quân",
+        relation: "Anh họ",
+        note: "Hậu duệ trẻ đời 5.",
+      },
+      {
+        fullName: "Nguyễn Thị Lan",
+        relation: "Bà",
+        note: "Hồ sơ phối ngẫu khác họ.",
+      },
+    ],
+  }),
 ];
 
 export const audienceGroups: AudienceGroup[] = [
