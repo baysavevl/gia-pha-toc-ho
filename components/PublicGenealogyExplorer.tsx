@@ -1,21 +1,15 @@
-"use client";
-
 import PublicSection from "@/components/PublicSection";
-import type { PublicGenealogyProfile } from "@/data/publicContent";
-import { Users, X } from "lucide-react";
-import { useMemo, useState } from "react";
+import {
+  getPublicGenealogyProfileSlug,
+  type PublicGenealogyProfile,
+} from "@/data/publicContent";
+import { ArrowRight, Users } from "lucide-react";
+import Link from "next/link";
 
-function PublicGenealogyCard({
-  profile,
-  onSelect,
-}: {
-  profile: PublicGenealogyProfile;
-  onSelect: (profile: PublicGenealogyProfile) => void;
-}) {
+function PublicGenealogyCard({ profile }: { profile: PublicGenealogyProfile }) {
   return (
-    <button
-      type="button"
-      onClick={() => onSelect(profile)}
+    <Link
+      href={`/pha-he/${getPublicGenealogyProfileSlug(profile)}`}
       className="group h-full rounded-2xl border border-stone-200 bg-white p-5 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-amber-200 hover:shadow-soft-hover focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
     >
       <div className="flex items-start justify-between gap-3">
@@ -44,27 +38,25 @@ function PublicGenealogyCard({
       <p className="mt-3 text-sm leading-6 text-stone-600">
         {profile.summary}
       </p>
-      <span className="mt-5 inline-flex text-sm font-bold text-stone-700 group-hover:text-amber-700">
-        Xem chi tiết
+      <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-stone-700 group-hover:text-amber-700">
+        Xem trang hồ sơ
+        <ArrowRight className="size-4" />
       </span>
-    </button>
+    </Link>
   );
 }
 
 function PublishedTreeNode({
   profile,
   featured = false,
-  onSelect,
 }: {
   profile: PublicGenealogyProfile;
   featured?: boolean;
-  onSelect: (profile: PublicGenealogyProfile) => void;
 }) {
   return (
-    <button
-      type="button"
-      onClick={() => onSelect(profile)}
-      className={`w-full max-w-[245px] rounded-2xl border bg-white p-4 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-amber-300 hover:shadow-soft-hover focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 ${
+    <Link
+      href={`/pha-he/${getPublicGenealogyProfileSlug(profile)}`}
+      className={`group w-full max-w-[260px] rounded-2xl border bg-white p-4 text-left shadow-sm transition-all hover:-translate-y-1 hover:border-amber-300 hover:shadow-soft-hover focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 ${
         featured
           ? "border-amber-300 ring-4 ring-amber-100"
           : "border-stone-200"
@@ -84,8 +76,11 @@ function PublishedTreeNode({
       <p className="mt-2 text-sm font-semibold text-stone-600">
         {profile.relationLabel}
       </p>
-      <p className="mt-3 text-sm text-stone-500">{profile.lifespan}</p>
-    </button>
+      <div className="mt-3 flex items-center justify-between gap-3 text-sm text-stone-500">
+        <span>{profile.lifespan}</span>
+        <ArrowRight className="size-4 text-stone-400 transition-colors group-hover:text-amber-700" />
+      </div>
+    </Link>
   );
 }
 
@@ -93,137 +88,18 @@ function VerticalLine({ className = "h-10" }: { className?: string }) {
   return <div className={`mx-auto w-px bg-stone-300 ${className}`} />;
 }
 
-function GenealogyDetailModal({
-  profile,
-  profileByName,
-  onClose,
-  onSelect,
-}: {
-  profile: PublicGenealogyProfile;
-  profileByName: Map<string, PublicGenealogyProfile>;
-  onClose: () => void;
-  onSelect: (profile: PublicGenealogyProfile) => void;
-}) {
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-stone-950/45 px-3 py-4 backdrop-blur-sm sm:items-center sm:px-6"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="public-profile-title"
-    >
-      <div className="max-h-[92svh] w-full max-w-4xl overflow-y-auto rounded-3xl border border-white/80 bg-white shadow-soft-hover">
-        <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-stone-200 bg-white/95 p-5 backdrop-blur sm:p-6">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">
-              Chi tiết hồ sơ
-            </p>
-            <h2
-              id="public-profile-title"
-              className="mt-2 font-serif text-3xl font-bold leading-tight text-stone-900"
-            >
-              {profile.fullName}
-            </h2>
-            <p className="mt-2 text-sm font-semibold text-stone-600">
-              {profile.relationLabel} · {profile.generation} · {profile.branch}
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={onClose}
-            className="flex size-10 shrink-0 items-center justify-center rounded-full border border-stone-200 bg-white text-stone-500 transition-colors hover:bg-stone-100 hover:text-stone-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
-            aria-label="Đóng chi tiết hồ sơ"
-          >
-            <X className="size-5" />
-          </button>
-        </div>
-
-        <div className="grid gap-6 p-5 sm:p-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <section>
-            <p className="text-sm leading-6 text-stone-600">
-              {profile.summary}
-            </p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              {profile.details.map((detail) => (
-                <div
-                  key={detail.label}
-                  className="rounded-2xl border border-stone-200 bg-stone-50 p-4"
-                >
-                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-amber-700">
-                    {detail.label}
-                  </p>
-                  <p className="mt-2 text-sm font-semibold leading-6 text-stone-800">
-                    {detail.value}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="rounded-2xl border border-stone-200 bg-white p-4">
-            <div className="flex items-center gap-2">
-              <span className="flex size-9 items-center justify-center rounded-xl bg-amber-50 text-amber-700 ring-1 ring-amber-200/70">
-                <Users className="size-4" />
-              </span>
-              <h3 className="font-serif text-2xl font-bold text-stone-900">
-                Người liên quan
-              </h3>
-            </div>
-            <div className="mt-4 space-y-3">
-              {profile.relatedPeople.map((related) => {
-                const relatedProfile = profileByName.get(related.fullName);
-
-                return (
-                  <button
-                    key={`${profile.fullName}-${related.fullName}`}
-                    type="button"
-                    onClick={() => {
-                      if (relatedProfile) onSelect(relatedProfile);
-                    }}
-                    className="w-full rounded-2xl border border-stone-200 bg-stone-50 p-4 text-left transition-all hover:border-amber-200 hover:bg-amber-50/60 focus:outline-none focus:ring-2 focus:ring-amber-500"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="text-sm font-bold text-stone-900">
-                          {related.fullName}
-                        </p>
-                        <p className="mt-1 text-xs font-bold uppercase tracking-[0.14em] text-amber-700">
-                          {related.relation}
-                        </p>
-                      </div>
-                      {relatedProfile && (
-                        <span className="shrink-0 rounded-full bg-white px-2.5 py-1 text-xs font-bold text-stone-600 ring-1 ring-stone-200">
-                          {relatedProfile.generation}
-                        </span>
-                      )}
-                    </div>
-                    <p className="mt-2 text-sm leading-6 text-stone-600">
-                      {related.note}
-                    </p>
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function PublicGenealogyExplorer({
   profiles,
 }: {
   profiles: PublicGenealogyProfile[];
 }) {
-  const [activeProfile, setActiveProfile] =
-    useState<PublicGenealogyProfile | null>(null);
   const rootProfile = profiles[0];
   const secondGeneration = profiles.slice(1, 3);
   const thirdGeneration = profiles.slice(3);
-  const profileByName = useMemo(
-    () => new Map(profiles.map((profile) => [profile.fullName, profile])),
-    [profiles],
-  );
+  const branchColumns = secondGeneration.map((profile, index) => ({
+    parent: profile,
+    child: thirdGeneration[index],
+  }));
   const genealogyStats = [
     {
       label: "Hồ sơ công khai",
@@ -262,7 +138,6 @@ export default function PublicGenealogyExplorer({
               <PublicGenealogyCard
                 key={profile.fullName}
                 profile={profile}
-                onSelect={setActiveProfile}
               />
             ))}
           </div>
@@ -292,67 +167,44 @@ export default function PublicGenealogyExplorer({
             </a>
           </div>
 
-          <div className="rounded-3xl border border-stone-200 bg-stone-100/70 p-3 shadow-sm">
-            <div className="rounded-2xl bg-white p-5 sm:p-8">
-              <div className="flex flex-col items-center">
+          <div className="rounded-3xl border border-stone-200 bg-white/70 p-3 shadow-soft backdrop-blur-xl">
+            <div className="overflow-hidden rounded-2xl border border-white bg-neutral p-5 sm:p-8 lg:p-10">
+              <div className="mx-auto flex w-full max-w-5xl flex-col items-center">
                 {rootProfile && (
                   <PublishedTreeNode
                     profile={rootProfile}
                     featured
-                    onSelect={setActiveProfile}
                   />
                 )}
 
                 <VerticalLine />
 
-                <div className="w-full max-w-3xl">
-                  <div className="mb-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-stone-500">
-                    Đời 2
-                  </div>
-                  <div className="grid justify-items-center gap-4 sm:grid-cols-2">
-                    {secondGeneration.map((profile) => (
-                      <PublishedTreeNode
-                        key={profile.fullName}
-                        profile={profile}
-                        onSelect={setActiveProfile}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                <VerticalLine />
-
-                <div className="w-full max-w-3xl">
-                  <div className="mb-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-stone-500">
-                    Đời 3
-                  </div>
-                  <div className="grid justify-items-center gap-4 sm:grid-cols-2">
-                    {thirdGeneration.map((profile) => (
-                      <PublishedTreeNode
-                        key={profile.fullName}
-                        profile={profile}
-                        onSelect={setActiveProfile}
-                      />
+                <div className="relative w-full">
+                  <div className="absolute left-1/2 top-0 hidden h-8 w-px -translate-x-1/2 bg-stone-300 sm:block" />
+                  <div className="absolute left-1/4 right-1/4 top-8 hidden h-px bg-stone-300 sm:block" />
+                  <div className="grid gap-7 pt-0 sm:grid-cols-2 sm:pt-8">
+                    {branchColumns.map(({ parent, child }) => (
+                      <div
+                        key={parent.fullName}
+                        className="flex min-w-0 flex-col items-center"
+                      >
+                        <div className="hidden h-8 w-px bg-stone-300 sm:block" />
+                        <PublishedTreeNode profile={parent} />
+                        {child && (
+                          <>
+                            <VerticalLine className="h-8" />
+                            <PublishedTreeNode profile={child} />
+                          </>
+                        )}
+                      </div>
                     ))}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <p className="mt-3 text-sm text-stone-500">
-            Trên màn hình nhỏ, các ô tự xếp thành một cột để không bị tràn chữ.
-          </p>
         </div>
       </section>
-
-      {activeProfile && (
-        <GenealogyDetailModal
-          profile={activeProfile}
-          profileByName={profileByName}
-          onClose={() => setActiveProfile(null)}
-          onSelect={setActiveProfile}
-        />
-      )}
     </>
   );
 }

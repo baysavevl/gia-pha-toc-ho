@@ -65,6 +65,7 @@ test("landing page publishes genealogy results without brief/concept sections", 
 test("public genealogy cards expose details and related people", () => {
   const contentSource = readProjectFile("data/publicContent.ts");
   const explorerSource = readProjectFile("components/PublicGenealogyExplorer.tsx");
+  const profileDetailSource = readProjectFile("app/pha-he/[slug]/page.tsx");
 
   const detailSets = contentSource.match(/details:\s*\[/g) ?? [];
   const relationSets = contentSource.match(/relatedPeople:\s*\[/g) ?? [];
@@ -74,10 +75,14 @@ test("public genealogy cards expose details and related people", () => {
     relationSets.length >= 5,
     "expected related people for every public profile",
   );
-  assert.match(explorerSource, /use client/);
-  assert.match(explorerSource, /setActiveProfile/);
-  assert.match(explorerSource, /Người liên quan/);
-  assert.match(explorerSource, /Chi tiết hồ sơ/);
+  assert.match(contentSource, /getPublicGenealogyProfileSlug/);
+  assert.match(explorerSource, /href=\{`\/pha-he\/\$\{/);
+  assert.doesNotMatch(explorerSource, /setActiveProfile/);
+  assert.doesNotMatch(explorerSource, /GenealogyDetailModal/);
+  assert.match(profileDetailSource, /generateStaticParams/);
+  assert.match(profileDetailSource, /getPublicGenealogyProfileBySlug/);
+  assert.match(profileDetailSource, /Người liên quan/);
+  assert.match(profileDetailSource, /Chi tiết hồ sơ/);
 });
 
 test("admin has a dedicated login route and legacy login redirects there", () => {

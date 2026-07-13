@@ -77,6 +77,24 @@ export interface PublicGenealogyProfile {
   relatedPeople: PublicRelatedPerson[];
 }
 
+export function getPublicGenealogyProfileSlug(
+  profile: Pick<PublicGenealogyProfile, "fullName">,
+) {
+  return profile.fullName
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[đĐ]/g, "d")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export function getPublicGenealogyProfileBySlug(slug: string) {
+  return publicGenealogyProfiles.find(
+    (profile) => getPublicGenealogyProfileSlug(profile) === slug,
+  );
+}
+
 export const siteContent = {
   name: "Hồ Văn Tộc",
   tagline: "Gia phả, phả ký và phả đồ công khai của dòng họ Hồ Văn.",
