@@ -8,6 +8,7 @@ import {
   Database,
   FileText,
   GitMerge,
+  Layers3,
   Mail,
   Network,
   Star,
@@ -143,6 +144,24 @@ export default function HeaderMenu() {
                       Ban trị sự
                     </p>
                   </div>
+
+                  <Link
+                    href="/dashboard/content"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-stone-700 hover:text-amber-700 hover:bg-amber-50 transition-colors"
+                  >
+                    <FileText className="size-4" />
+                    Quản lý Nội dung
+                  </Link>
+
+                  <Link
+                    href="/dashboard/branches"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-stone-700 hover:text-stone-900 hover:bg-stone-50 transition-colors"
+                  >
+                    <Layers3 className="size-4" />
+                    Chi / Nhánh
+                  </Link>
 
                   <Link
                     href="/dashboard/users"

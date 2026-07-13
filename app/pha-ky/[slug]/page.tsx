@@ -1,6 +1,7 @@
 import PublicFooter from "@/components/PublicFooter";
 import PublicHeader from "@/components/PublicHeader";
 import { getEntryBySlug, phaKyEntries } from "@/data/publicContent";
+import { getPublishedPublicEntryBySlug } from "@/utils/supabase/publicContent";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -14,9 +15,13 @@ export function generateStaticParams() {
   return phaKyEntries.map((entry) => ({ slug: entry.slug }));
 }
 
+export const revalidate = 300;
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const entry = getEntryBySlug("pha_ky", slug);
+  const entry =
+    (await getPublishedPublicEntryBySlug("pha_ky", slug)) ??
+    getEntryBySlug("pha_ky", slug);
   if (!entry) return {};
   return {
     title: `${entry.title} | Phả ký Hồ Văn Tộc`,
@@ -26,7 +31,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PhaKyDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const entry = getEntryBySlug("pha_ky", slug);
+  const entry =
+    (await getPublishedPublicEntryBySlug("pha_ky", slug)) ??
+    getEntryBySlug("pha_ky", slug);
   if (!entry) notFound();
 
   return (

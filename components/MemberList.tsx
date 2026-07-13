@@ -3,8 +3,10 @@
 import PersonCard from "@/components/PersonCard";
 import { Person, Relationship } from "@/types";
 import { ArrowUpDown, Filter, Plus, Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useMemberListView } from "@/context/MemberListContext";
+
+const PAGE_SIZE = 80;
 
 export default function MemberList({
   initialPersons,
@@ -17,9 +19,14 @@ export default function MemberList({
 }) {
   const { setShowCreateMember } = useMemberListView();
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortOption, setSortOption] = useState("generation_asc");
+  const [sortOption, setSortOption] = useState("updated_desc");
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const [filterOption, setFilterOption] = useState("all");
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [searchTerm, sortOption, filterOption]);
 
   const filteredPersons = useMemo(() => {
     return initialPersons.filter((person) => {
@@ -264,6 +271,9 @@ export default function MemberList({
     return finalSorted;
   }, [filteredPersons, sortOption, initialPersons, parentsOf, spousesOf]);
 
+  const visiblePersons = sortedPersons.slice(0, visibleCount);
+  const hasMore = visiblePersons.length < sortedPersons.length;
+
   return (
     <>
       <div className="mb-8 relative">
@@ -364,7 +374,7 @@ export default function MemberList({
         sortOption.includes("generation") ? (
           <div className="space-y-12">
             {Object.entries(
-              sortedPersons.reduce(
+              visiblePersons.reduce(
                 (acc, person) => {
                   const gen = person.generation || 0;
                   if (!acc[gen]) acc[gen] = [];
@@ -600,7 +610,7 @@ export default function MemberList({
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sortedPersons.map((person) => (
+            {visiblePersons.map((person) => (
               <PersonCard key={person.id} person={person} />
             ))}
           </div>
@@ -610,6 +620,23 @@ export default function MemberList({
           {initialPersons.length > 0
             ? "Không tìm thấy thành viên phù hợp."
             : "Chưa có thành viên nào. Hãy thêm thành viên đầu tiên."}
+        </div>
+      )}
+
+      {sortedPersons.length > 0 && (
+        <div className="mt-8 flex flex-col items-center gap-3 text-center">
+          <p className="text-sm font-medium text-stone-500">
+            Đang hiển thị {visiblePersons.length}/{sortedPersons.length} hồ sơ
+          </p>
+          {hasMore && (
+            <button
+              type="button"
+              onClick={() => setVisibleCount((count) => count + PAGE_SIZE)}
+              className="btn py-3"
+            >
+              Hiển thị thêm
+            </button>
+          )}
         </div>
       )}
     </>

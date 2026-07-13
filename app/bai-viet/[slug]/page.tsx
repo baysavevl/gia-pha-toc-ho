@@ -1,6 +1,7 @@
 import PublicFooter from "@/components/PublicFooter";
 import PublicHeader from "@/components/PublicHeader";
 import { formatVietnameseDate, getEntryBySlug, postEntries } from "@/data/publicContent";
+import { getPublishedPublicEntryBySlug } from "@/utils/supabase/publicContent";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,9 +15,13 @@ export function generateStaticParams() {
   return postEntries.map((entry) => ({ slug: entry.slug }));
 }
 
+export const revalidate = 300;
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const entry = getEntryBySlug("post", slug);
+  const entry =
+    (await getPublishedPublicEntryBySlug("post", slug)) ??
+    getEntryBySlug("post", slug);
   if (!entry) return {};
   return {
     title: `${entry.title} | Bài viết Hồ Văn Tộc`,
@@ -26,7 +31,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function BaiVietDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const entry = getEntryBySlug("post", slug);
+  const entry =
+    (await getPublishedPublicEntryBySlug("post", slug)) ??
+    getEntryBySlug("post", slug);
   if (!entry) notFound();
 
   return (

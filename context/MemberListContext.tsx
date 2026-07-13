@@ -26,11 +26,13 @@ export function MemberListProvider({
   initialView,
   initialRootId,
   initialShowAvatar,
+  initialShowCreateMember,
 }: {
   children: React.ReactNode;
   initialView?: ViewMode;
   initialRootId?: string | null;
   initialShowAvatar?: boolean;
+  initialShowCreateMember?: boolean;
 }) {
   const searchParams = useSearchParams();
 
@@ -38,7 +40,9 @@ export function MemberListProvider({
   const [memberModalId, setMemberModalId] = useState<string | null>(
     () => searchParams.get("memberModalId") ?? null,
   );
-  const [showCreateMember, setShowCreateMember] = useState(false);
+  const [showCreateMember, setShowCreateMember] = useState(
+    initialShowCreateMember ?? false,
+  );
   const [showAvatar, setShowAvatar] = useState<boolean>(
     () => initialShowAvatar ?? searchParams.get("avatar") !== "hide",
   );
@@ -67,6 +71,8 @@ export function MemberListProvider({
 
       const modalId = sp.get("memberModalId");
       setMemberModalId(modalId);
+
+      setShowCreateMember(sp.get("create") === "1");
     };
 
     syncFromURL();
@@ -79,6 +85,7 @@ export function MemberListProvider({
       const newUrl = new URL(window.location.href);
       if (id) {
         newUrl.searchParams.set("memberModalId", id);
+        newUrl.searchParams.delete("create");
       } else {
         newUrl.searchParams.delete("memberModalId");
       }
@@ -94,6 +101,20 @@ export function MemberListProvider({
         newUrl.searchParams.set("avatar", "hide");
       } else {
         newUrl.searchParams.delete("avatar");
+      }
+      window.history.replaceState(null, "", newUrl.toString());
+    }
+  };
+
+  const updateShowCreateMember = (show: boolean) => {
+    setShowCreateMember(show);
+    if (typeof window !== "undefined") {
+      const newUrl = new URL(window.location.href);
+      if (show) {
+        newUrl.searchParams.set("create", "1");
+        newUrl.searchParams.delete("memberModalId");
+      } else {
+        newUrl.searchParams.delete("create");
       }
       window.history.replaceState(null, "", newUrl.toString());
     }
@@ -127,7 +148,7 @@ export function MemberListProvider({
         memberModalId,
         setMemberModalId: updateModalId,
         showCreateMember,
-        setShowCreateMember,
+        setShowCreateMember: updateShowCreateMember,
         showAvatar,
         setShowAvatar: updateAvatar,
         view,

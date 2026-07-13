@@ -8,11 +8,18 @@ import {
   publicGenealogyProfiles,
   siteContent,
 } from "@/data/publicContent";
+import { getPublishedPublicEntries } from "@/utils/supabase/publicContent";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function HomePage() {
+export const revalidate = 300;
+
+export default async function HomePage() {
+  const publishedPhaKyEntries = await getPublishedPublicEntries("pha_ky");
+  const visiblePhaKyEntries =
+    publishedPhaKyEntries.length > 0 ? publishedPhaKyEntries : phaKyEntries;
+
   return (
     <div className="min-h-screen bg-neutral text-primary">
       <PublicHeader />
@@ -64,7 +71,7 @@ export default function HomePage() {
           className="py-14 sm:py-20"
         >
           <div className="grid gap-5 md:grid-cols-2">
-            {phaKyEntries.map((entry) => (
+            {visiblePhaKyEntries.map((entry) => (
               <ContentCard
                 key={entry.slug}
                 href={`/pha-ky/${entry.slug}`}

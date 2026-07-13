@@ -1,7 +1,8 @@
 "use client";
 
-import { Gender, Person } from "@/types";
+import { Branch, Gender, Person } from "@/types";
 import { createClient } from "@/utils/supabase/client";
+import { slugifyVietnamese } from "@/utils/slug";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import {
   AlertCircle,
@@ -17,7 +18,7 @@ import {
 } from "lucide-react";
 import { Lunar, Solar } from "lunar-javascript";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface MemberFormProps {
   initialData?: Person;
@@ -37,7 +38,7 @@ export default function MemberForm({
   onCancel,
 }: MemberFormProps) {
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -88,6 +89,8 @@ export default function MemberForm({
   const [generation, setGeneration] = useState<number | "">(
     initialData?.generation || "",
   );
+  const [branchId, setBranchId] = useState(initialData?.branch_id || "");
+  const [branches, setBranches] = useState<Branch[]>([]);
 
   const [avatarUrl, setAvatarUrl] = useState(initialData?.avatar_url || "");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -108,17 +111,27 @@ export default function MemberForm({
     initialData?.current_residence ?? "",
   );
 
-  const slugify = (str: string) => {
-    return str
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[đĐ]/g, "d")
-      .replace(/([^0-9a-z-\s])/g, "")
-      .replace(/(\s+)/g, "-")
-      .replace(/-+/g, "-")
-      .replace(/^-+|-+$/g, "");
-  };
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadBranches = async () => {
+      const { data } = await supabase
+        .from("branches")
+        .select("*")
+        .order("sort_order", { ascending: true })
+        .order("name", { ascending: true });
+
+      if (isMounted) {
+        setBranches((data as Branch[]) ?? []);
+      }
+    };
+
+    loadBranches();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [supabase]);
 
   const handleSolarDeathChange = (
     field: "day" | "month" | "year",
@@ -323,6 +336,7 @@ export default function MemberForm({
         is_in_law: isInLaw,
         birth_order: birthOrder === "" ? null : Number(birthOrder),
         generation: generation === "" ? null : Number(generation),
+        branch_id: branchId || null,
         other_names: otherNames || null,
         avatar_url: url,
         note: note || null,
@@ -351,7 +365,7 @@ export default function MemberForm({
       // 2. Handle Avatar Upload if a new file is selected (now we have currentPersonId)
       if (avatarFile && currentPersonId) {
         const fileExt = avatarFile.name.split(".").pop();
-        const slugName = slugify(fullName);
+        const slugName = slugifyVietnamese(fullName);
         const fileName = `${currentPersonId}_${slugName}.${fileExt}`;
         const filePath = `${fileName}`;
 
@@ -565,6 +579,34 @@ export default function MemberForm({
             <p className="mt-1.5 text-xs text-stone-400 flex items-center gap-1">
               <span>💡</span> Để trống nếu không rõ
             </p>
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="block text-sm font-semibold text-stone-700 mb-1.5">
+              Chi / phái / nhánh
+            </label>
+            <div className="relative">
+              <select
+                value={branchId}
+                onChange={(e) => setBranchId(e.target.value)}
+                className={`${inputClasses} appearance-none`}
+              >
+                <option value="">Chưa gán chi nhánh</option>
+                {branches.map((branch) => (
+                  <option key={branch.id} value={branch.id}>
+                    {branch.name} ·{" "}
+                    {branch.type === "chi"
+                      ? "Chi"
+                      : branch.type === "phai"
+                        ? "Phái"
+                        : "Nhánh"}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-stone-500">
+                <Settings2 className="size-4" />
+              </div>
+            </div>
           </div>
 
           <div className="md:col-span-2 mt-2">

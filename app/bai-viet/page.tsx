@@ -3,13 +3,19 @@ import PublicFooter from "@/components/PublicFooter";
 import PublicHeader from "@/components/PublicHeader";
 import PublicSection from "@/components/PublicSection";
 import { formatVietnameseDate, postEntries } from "@/data/publicContent";
+import { getPublishedPublicEntries } from "@/utils/supabase/publicContent";
 
 export const metadata = {
   title: "Bài viết | Hồ Văn Tộc",
   description: "Tin tức, thông báo, tư liệu và câu chuyện của dòng họ Hồ Văn.",
 };
 
-export default function BaiVietPage() {
+export const revalidate = 300;
+
+export default async function BaiVietPage() {
+  const publishedEntries = await getPublishedPublicEntries("post");
+  const entries = publishedEntries.length > 0 ? publishedEntries : postEntries;
+
   return (
     <div className="min-h-screen bg-neutral">
       <PublicHeader />
@@ -20,7 +26,7 @@ export default function BaiVietPage() {
           description="Không gian chia sẻ thông báo, hoạt động đã diễn ra, hình ảnh, câu chuyện lịch sử và những ghi chép được phép công bố."
         >
           <div className="grid gap-5 md:grid-cols-2">
-            {postEntries.map((entry) => (
+            {entries.map((entry) => (
               <ContentCard
                 key={entry.slug}
                 href={`/bai-viet/${entry.slug}`}

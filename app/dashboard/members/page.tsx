@@ -2,37 +2,47 @@ import { MemberListProvider } from "@/context/MemberListContext";
 import MembersViews from "@/components/MembersViews";
 import MemberDetailModal from "@/components/modal/MemberDetailModal";
 import ViewToggle from "@/components/ViewToggle";
+import { Person, Relationship } from "@/types";
 import { getProfile, getSupabase } from "@/utils/supabase/queries";
 
 import { ViewMode } from "@/components/ViewToggle";
 
 interface PageProps {
-  searchParams: Promise<{ view?: string; rootId?: string; avatar?: string }>;
+  searchParams: Promise<{
+    view?: string;
+    rootId?: string;
+    avatar?: string;
+    create?: string;
+  }>;
 }
 export default async function FamilyTreePage({ searchParams }: PageProps) {
-  const { view, rootId, avatar } = await searchParams;
-  const initialView = view as ViewMode | undefined;
+  const { view, rootId, avatar, create } = await searchParams;
+  const initialView = (view as ViewMode | undefined) ?? "list";
   const initialShowAvatar = avatar !== "hide";
 
   const profile = await getProfile();
   const canEdit = profile?.role === "admin" || profile?.role === "editor";
 
-  // If view is list, we only need persons, not relationships.
-  // We fetch persons for all views to pass down as a prop if we want, or let components fetch.
-  // Actually, to make transitions fast and avoid duplicate fetching across components,
-  // we will fetch data here and pass it down as props.
   const supabase = await getSupabase();
+  const isTreeView = initialView !== "list";
+  const personColumns = isTreeView
+    ? "id, full_name, gender, birth_year, avatar_url, is_deceased, is_in_law, generation, birth_order, branch_id, created_at, updated_at"
+    : "id, full_name, gender, birth_year, death_year, death_lunar_year, avatar_url, is_deceased, is_in_law, generation, birth_order, branch_id, created_at, updated_at";
 
   const [personsRes, relsRes] = await Promise.all([
     supabase
       .from("persons")
-      .select("*")
+      .select(personColumns)
       .order("birth_year", { ascending: true, nullsFirst: false }),
-    supabase.from("relationships").select("*"),
+    isTreeView
+      ? supabase.from("relationships").select("*")
+      : supabase
+          .from("relationships")
+          .select("id, type, person_a, person_b, note, created_at, updated_at"),
   ]);
 
-  const persons = personsRes.data || [];
-  const relationships = relsRes.data || [];
+  const persons = ((personsRes.data || []) as unknown) as Person[];
+  const relationships = ((relsRes.data || []) as unknown) as Relationship[];
 
   // Prepare map and roots for tree views
   const personsMap = new Map();
@@ -63,6 +73,7 @@ export default async function FamilyTreePage({ searchParams }: PageProps) {
       initialView={initialView}
       initialRootId={finalRootId}
       initialShowAvatar={initialShowAvatar}
+      initialShowCreateMember={canEdit && create === "1"}
     >
       <ViewToggle />
       <MembersViews

@@ -1,17 +1,18 @@
 import { getTodayLunar } from "@/utils/dateHelpers";
-import { computeEvents } from "@/utils/eventHelpers";
-import { getIsAdmin, getSupabase } from "@/utils/supabase/queries";
+import { getProfile, getSupabase } from "@/utils/supabase/queries";
 import {
   ArrowRight,
   BarChart2,
   BookOpen,
-  Cake,
   CalendarDays,
   Database,
+  FilePlus2,
   FileText,
-  Flower2,
   GitMerge,
+  Layers3,
   Network,
+  PenLine,
+  Plus,
   Star,
   Users,
   Image as ImageIcon,
@@ -19,49 +20,80 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-/* ── Event type helpers ───────────────────────────────────────────── */
-const eventTypeConfig = {
-  birthday: {
-    icon: Cake,
-    label: "Sinh nhật",
-    color: "text-amber-600",
-    bg: "bg-amber-50",
-  },
-  death_anniversary: {
-    icon: Flower2,
-    label: "Ngày giỗ",
-    color: "text-purple-600",
-    bg: "bg-purple-50",
-  },
-  custom_event: {
-    icon: Star,
-    label: "Sự kiện",
-    color: "text-emerald-600",
-    bg: "bg-emerald-50",
-  },
-};
-
 export default async function DashboardLaunchpad() {
-  const isAdmin = await getIsAdmin();
+  const profile = await getProfile();
+  const isAdmin = profile?.role === "admin";
+  const canEdit = profile?.role === "admin" || profile?.role === "editor";
   const supabase = await getSupabase();
 
-  /* ── Fetch events data ────────────────────────────────────────── */
-  const { data: persons } = await supabase
-    .from("persons")
-    .select(
-      "id, full_name, birth_year, birth_month, birth_day, death_year, death_month, death_day, death_lunar_year, death_lunar_month, death_lunar_day, is_deceased",
-    );
-
-  const { data: customEvents } = await supabase
-    .from("custom_events")
-    .select("id, name, content, event_date, location, created_by");
-
-  const allEvents = computeEvents(persons ?? [], customEvents ?? []);
-  const upcomingEvents = allEvents.filter(
-    (e) => e.daysUntil >= 0 && e.daysUntil <= 30,
-  );
+  const [
+    personsCountRes,
+    branchesCountRes,
+    contentCountRes,
+    customEventsCountRes,
+  ] = await Promise.all([
+    supabase.from("persons").select("id", { count: "exact", head: true }),
+    supabase.from("branches").select("id", { count: "exact", head: true }),
+    supabase
+      .from("content_entries")
+      .select("id", { count: "exact", head: true }),
+    supabase.from("custom_events").select("id", { count: "exact", head: true }),
+  ]);
 
   const lunar = getTodayLunar();
+  const dashboardStats = [
+    {
+      label: "Thành viên",
+      value: personsCountRes.count ?? 0,
+      href: "/dashboard/members",
+    },
+    {
+      label: "Chi / nhánh",
+      value: branchesCountRes.count ?? 0,
+      href: "/dashboard/branches",
+    },
+    {
+      label: "Nội dung",
+      value: contentCountRes.count ?? 0,
+      href: "/dashboard/content",
+    },
+    {
+      label: "Sự kiện",
+      value: customEventsCountRes.count ?? 0,
+      href: "/dashboard/events",
+    },
+  ];
+
+  const quickActions = [
+    {
+      title: "Thêm thành viên",
+      description: "Tạo hồ sơ phả hệ mới",
+      icon: <Plus className="size-5" />,
+      href: "/dashboard/members?create=1",
+      show: canEdit,
+    },
+    {
+      title: "Tìm & sửa hồ sơ",
+      description: "Mở danh sách với ô tìm kiếm",
+      icon: <PenLine className="size-5" />,
+      href: "/dashboard/members?view=list",
+      show: canEdit,
+    },
+    {
+      title: "Thêm phả ký",
+      description: "Tạo nội dung loại phả ký",
+      icon: <FilePlus2 className="size-5" />,
+      href: "/dashboard/content?type=pha_ky&new=1",
+      show: canEdit,
+    },
+    {
+      title: "Quản lý chi / nhánh",
+      description: "Sắp xếp chi, phái, nhánh",
+      icon: <Layers3 className="size-5" />,
+      href: "/dashboard/branches",
+      show: canEdit,
+    },
+  ].filter((item) => item.show);
 
   /* ── Feature lists ────────────────────────────────────────────── */
   const publicFeatures = [
@@ -123,7 +155,7 @@ export default async function DashboardLaunchpad() {
       title: "Bài viết",
       description: "Tin tức, thông báo và câu chuyện của dòng họ",
       icon: <FileText className="size-8 text-emerald-600" />,
-      href: "/bai-viet",
+      href: canEdit ? "/dashboard/content" : "/bai-viet",
       bgColor: "bg-emerald-50",
       borderColor: "border-emerald-200/60",
       hoverColor: "hover:border-emerald-400 hover:shadow-emerald-100",
@@ -149,6 +181,24 @@ export default async function DashboardLaunchpad() {
   ];
 
   const adminFeatures = [
+    {
+      title: "Quản lý Nội dung",
+      description: "Bài viết, phả ký và nhân vật tiêu biểu",
+      icon: <FileText className="size-8 text-amber-700" />,
+      href: "/dashboard/content",
+      bgColor: "bg-amber-50",
+      borderColor: "border-amber-200/60",
+      hoverColor: "hover:border-amber-400 hover:shadow-amber-100",
+    },
+    {
+      title: "Quản lý Chi / Nhánh",
+      description: "Tổ chức chi, phái, nhánh trong phả hệ",
+      icon: <Layers3 className="size-8 text-stone-600" />,
+      href: "/dashboard/branches",
+      bgColor: "bg-stone-50",
+      borderColor: "border-stone-200/60",
+      hoverColor: "hover:border-stone-400 hover:shadow-stone-100",
+    },
     {
       title: "Quản lý Người dùng",
       description: "Phê duyệt tài khoản và phân quyền",
@@ -216,74 +266,67 @@ export default async function DashboardLaunchpad() {
             </div>
           </div>
 
-          {/* Events summary */}
+          {/* Fast summary */}
           <div className="md:w-[65%] w-full flex-1">
-            {upcomingEvents.length > 0 ? (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-semibold text-stone-500 uppercase tracking-widest flex items-center gap-2.5">
-                    <span className="relative flex size-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full size-2 bg-amber-500"></span>
-                    </span>
-                    Sự kiện 30 ngày tới ({upcomingEvents.length})
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-semibold text-stone-500 uppercase tracking-widest flex items-center gap-2.5">
+                Tổng quan nhanh
+              </p>
+              <ArrowRight className="size-5 text-stone-300 group-hover:text-stone-500 group-hover:translate-x-1 transition-all duration-300" />
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+              {dashboardStats.map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-2xl border border-stone-100 bg-stone-50/70 p-4"
+                >
+                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-stone-500">
+                    {item.label}
                   </p>
-                  <ArrowRight className="size-5 text-stone-300 group-hover:text-stone-500 group-hover:translate-x-1 transition-all duration-300" />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {upcomingEvents.slice(0, 4).map((evt, i) => {
-                    const cfg = eventTypeConfig[evt.type];
-                    const Icon = cfg.icon;
-                    return (
-                      <div
-                        key={i}
-                        className="flex items-center gap-3.5 p-3 rounded-2xl bg-stone-50/50 hover:bg-stone-50 border border-transparent hover:border-stone-100 transition-all duration-300 cursor-pointer"
-                      >
-                        <div
-                          className={`size-10 rounded-xl ${cfg.bg} flex items-center justify-center shrink-0 shadow-sm border border-white`}
-                        >
-                          <Icon className={`size-4 ${cfg.color}`} />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <span className="text-sm font-semibold text-stone-700 truncate block">
-                            {evt.personName}
-                          </span>
-                          <span className="text-xs text-stone-500 font-medium pt-0.5 block">
-                            {evt.daysUntil === 0
-                              ? "Hôm nay"
-                              : evt.daysUntil === 1
-                                ? "Ngày mai"
-                                : `${evt.daysUntil} ngày nữa`}{" "}
-                            · {evt.eventDateLabel}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-                {upcomingEvents.length > 4 && (
-                  <p className="text-xs text-stone-400 mt-2 text-center sm:text-left font-medium">
-                    + {upcomingEvents.length - 4} sự kiện khác đang chờ...
+                  <p className="mt-2 font-serif text-3xl font-bold text-stone-900">
+                    {item.value}
                   </p>
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full gap-3 opacity-80 py-6">
-                <div className="p-4 bg-stone-50 rounded-2xl border border-stone-100 text-stone-400 transition-transform duration-500 group-hover:scale-105 group-hover:text-stone-500">
-                  <CalendarDays className="size-6" />
                 </div>
-                <p className="text-stone-500 text-center font-medium px-4">
-                  Không có sự kiện nào trong 30 ngày tới.
-                </p>
-                <div className="flex items-center gap-2 text-sm text-stone-400 mt-1 font-medium group-hover:text-stone-600 transition-colors">
-                  <span>Xem sự kiện trong năm</span>
-                  <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
-            )}
+              ))}
+            </div>
           </div>
         </div>
       </Link>
+
+      {quickActions.length > 0 && (
+        <section className="mb-10">
+          <div className="mb-4 flex items-center justify-between gap-4">
+            <h2 className="text-xl font-serif font-bold text-stone-800">
+              Thao tác nhanh
+            </h2>
+            <Link href="/dashboard/members" className="btn py-3">
+              <Network className="size-4" />
+              Phả hệ
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {quickActions.map((action) => (
+              <Link
+                key={action.href}
+                href={action.href}
+                className="group flex items-center gap-4 rounded-2xl border border-stone-200 bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-amber-200 hover:shadow-soft-hover"
+              >
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-amber-200/70 bg-amber-50 text-amber-700">
+                  {action.icon}
+                </span>
+                <span className="min-w-0">
+                  <span className="block font-bold text-stone-900 group-hover:text-amber-800">
+                    {action.title}
+                  </span>
+                  <span className="mt-1 block truncate text-sm text-stone-500">
+                    {action.description}
+                  </span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ── Feature Grid ──────────────────────────────────── */}
       <div className="space-y-12">
