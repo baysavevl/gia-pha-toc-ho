@@ -46,8 +46,8 @@ test("landing page publishes genealogy results without brief/concept sections", 
   assert.match(landingSource, /id="pha-do-cong-khai"/);
   assert.match(landingSource, /publicGenealogyProfiles/);
   assert.match(landingSource, /Bản công khai/);
-  assert.match(landingSource, /Phả đồ dạng cây dọc/);
-  assert.match(landingSource, /VerticalLine/);
+  assert.match(landingSource, /Phả đồ theo đời và chi nhánh/);
+  assert.match(landingSource, /Chi \/ nhánh/);
   assert.doesNotMatch(landingSource, /Đã publish/);
   assert.doesNotMatch(landingSource, /min-w-\[1100px\]/);
   assert.doesNotMatch(landingSource, /moduleBriefs/);

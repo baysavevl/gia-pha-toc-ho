@@ -27,7 +27,7 @@ function PublicGenealogyCard({ profile }: { profile: PublicGenealogyProfile }) {
       </div>
       <div className="mt-4 grid gap-2 text-sm text-stone-600 sm:grid-cols-2">
         <p>
-          <span className="font-semibold text-stone-900">Nhánh:</span>{" "}
+          <span className="font-semibold text-stone-900">Chi / nhánh:</span>{" "}
           {profile.branch}
         </p>
         <p>
@@ -62,19 +62,19 @@ function PublishedTreeNode({
           : "border-stone-200"
       }`}
     >
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-start justify-between gap-3">
         <span className="rounded-full bg-stone-100 px-3 py-1 text-xs font-bold text-stone-700">
           {profile.generation}
         </span>
-        <span className="text-xs font-bold uppercase tracking-[0.14em] text-amber-700">
+        <span className="text-right text-xs font-bold uppercase tracking-[0.14em] text-amber-700">
           {profile.branch}
         </span>
       </div>
       <h3 className="mt-4 font-serif text-2xl font-bold leading-tight text-stone-900">
         {profile.fullName}
       </h3>
-      <p className="mt-2 text-sm font-semibold text-stone-600">
-        {profile.relationLabel}
+      <p className="mt-2 text-sm font-semibold leading-6 text-stone-600">
+        Vị trí: {profile.relationLabel}
       </p>
       <div className="mt-3 flex items-center justify-between gap-3 text-sm text-stone-500">
         <span>{profile.lifespan}</span>
@@ -82,10 +82,6 @@ function PublishedTreeNode({
       </div>
     </Link>
   );
-}
-
-function VerticalLine({ className = "h-10" }: { className?: string }) {
-  return <div className={`mx-auto w-px bg-stone-300 ${className}`} />;
 }
 
 export default function PublicGenealogyExplorer({
@@ -166,10 +162,10 @@ export default function PublicGenealogyExplorer({
                 Phả đồ
               </p>
               <h2 className="font-serif text-3xl font-bold leading-tight text-stone-900 sm:text-4xl">
-                Phả đồ dạng cây dọc
+                Phả đồ theo đời và chi nhánh
               </h2>
               <p className="mt-4 text-base leading-7 text-stone-600 sm:text-lg">
-                Thủy tổ ở trên cùng, các đời sau được xếp xuống dưới để dễ nhìn quan hệ cha con.
+                Mỗi hàng gom các thành viên cùng đời, ghi rõ vị trí công khai và chi nhánh để tránh nhầm vai vế. Quan hệ cha mẹ, phối ngẫu hoặc nhận nuôi được lưu trong hồ sơ chi tiết.
               </p>
             </div>
             <a href="#pha-he-cong-khai" className="btn py-3">
@@ -181,11 +177,14 @@ export default function PublicGenealogyExplorer({
           <div className="rounded-3xl border border-stone-200 bg-white/70 p-3 shadow-soft backdrop-blur-xl">
             <div className="overflow-hidden rounded-2xl border border-white bg-neutral p-5 sm:p-8 lg:p-10">
               <div className="mx-auto flex w-full max-w-6xl flex-col items-center">
-                {generationRows.map((row, index) => (
+                {generationRows.map((row) => (
                   <div key={row.generation} className="w-full">
-                    {index > 0 && <VerticalLine className="h-8" />}
-                    <div className="mb-4 text-center text-xs font-bold uppercase tracking-[0.16em] text-stone-500">
-                      {row.generation}
+                    <div className="my-6 flex items-center gap-4 first:mt-0">
+                      <div className="h-px flex-1 bg-stone-200" />
+                      <div className="rounded-full border border-stone-200 bg-white px-4 py-2 text-center text-xs font-bold uppercase tracking-[0.16em] text-stone-600 shadow-sm">
+                        {row.generation}
+                      </div>
+                      <div className="h-px flex-1 bg-stone-200" />
                     </div>
                     <div
                       className={`grid justify-items-center gap-5 ${

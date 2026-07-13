@@ -138,7 +138,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     generation: "Đời 1",
     branch: "Thủy tổ",
     lifespan: "1888 - 1959",
-    relationLabel: "Gốc phả hệ",
+    relationLabel: "Thủy tổ",
     summary:
       "Vị trí khởi phả của nhánh đang được công khai, là điểm nối chính cho các đời kế tiếp.",
     details: [
@@ -146,7 +146,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       { label: "Đời", value: "Đời 1" },
       { label: "Chi / nhánh", value: "Thủy tổ" },
       { label: "Niên đại", value: "1888 - 1959" },
-      { label: "Vai trò", value: "Gốc phả hệ công khai" },
+      { label: "Vai trò", value: "Thủy tổ trong bản công khai" },
       { label: "Ghi chú", value: "Điểm nối chính cho các đời sau." },
     ],
     relatedPeople: [
@@ -162,7 +162,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       },
       {
         fullName: "Hồ Văn Minh",
-        relation: "Cháu đời sau",
+        relation: "Đời 3",
         note: "Đại diện nhánh Đông đời 3.",
       },
     ],
@@ -172,7 +172,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     generation: "Đời 2",
     branch: "Chi trưởng",
     lifespan: "1914 - 1987",
-    relationLabel: "Con trưởng",
+    relationLabel: "Trưởng nam",
     summary:
       "Đại diện chi trưởng, nối tiếp dòng chính và mở ra các nhánh con trong bản phả đồ.",
     details: [
@@ -180,7 +180,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       { label: "Đời", value: "Đời 2" },
       { label: "Chi / nhánh", value: "Chi trưởng" },
       { label: "Niên đại", value: "1914 - 1987" },
-      { label: "Vai trò", value: "Con trưởng" },
+      { label: "Vai trò", value: "Trưởng nam, lập chi trưởng" },
       { label: "Ghi chú", value: "Nối tiếp dòng chính trong phả đồ." },
     ],
     relatedPeople: [
@@ -196,7 +196,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       },
       {
         fullName: "Hồ Văn Minh",
-        relation: "Đời sau",
+        relation: "Đời 3",
         note: "Đại diện nhánh Đông đời 3.",
       },
     ],
@@ -206,7 +206,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     generation: "Đời 2",
     branch: "Chi thứ",
     lifespan: "1919 - 1998",
-    relationLabel: "Con thứ",
+    relationLabel: "Thứ nữ",
     summary:
       "Hồ sơ thuộc đời thứ hai, giúp đối chiếu quan hệ giữa các nhánh nội ngoại.",
     details: [
@@ -214,7 +214,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       { label: "Đời", value: "Đời 2" },
       { label: "Chi / nhánh", value: "Chi thứ" },
       { label: "Niên đại", value: "1919 - 1998" },
-      { label: "Vai trò", value: "Con thứ" },
+      { label: "Vai trò", value: "Thứ nữ đời 2" },
       { label: "Ghi chú", value: "Hồ sơ đời 2 trong bản công khai." },
     ],
     relatedPeople: [
@@ -230,7 +230,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       },
       {
         fullName: "Hồ Thị Mai",
-        relation: "Đời sau",
+        relation: "Đời 3",
         note: "Đại diện nhánh Tây đời 3.",
       },
     ],
@@ -240,7 +240,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     generation: "Đời 3",
     branch: "Nhánh Đông",
     lifespan: "1946 - nay",
-    relationLabel: "Cháu nội",
+    relationLabel: "Nội tộc",
     summary:
       "Đại diện đời thứ ba thuộc nhánh Đông, đang được hiển thị với thông tin công khai tối giản.",
     details: [
@@ -248,7 +248,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       { label: "Đời", value: "Đời 3" },
       { label: "Chi / nhánh", value: "Nhánh Đông" },
       { label: "Niên đại", value: "1946 - nay" },
-      { label: "Vai trò", value: "Cháu nội" },
+      { label: "Vai trò", value: "Thành viên nội tộc nhánh Đông" },
       { label: "Ghi chú", value: "Thông tin công khai tối giản." },
     ],
     relatedPeople: [
@@ -259,7 +259,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       },
       {
         fullName: "Hồ Văn Định",
-        relation: "Đời trước",
+        relation: "Đời 2",
         note: "Đại diện chi trưởng đời 2.",
       },
       {
@@ -274,7 +274,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     generation: "Đời 3",
     branch: "Nhánh Tây",
     lifespan: "1952 - nay",
-    relationLabel: "Cháu nội",
+    relationLabel: "Nội tộc",
     summary:
       "Đại diện đời thứ ba thuộc nhánh Tây, nối tiếp dữ liệu phả hệ đang công khai.",
     details: [
@@ -282,7 +282,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       { label: "Đời", value: "Đời 3" },
       { label: "Chi / nhánh", value: "Nhánh Tây" },
       { label: "Niên đại", value: "1952 - nay" },
-      { label: "Vai trò", value: "Cháu nội" },
+      { label: "Vai trò", value: "Thành viên nội tộc nhánh Tây" },
       { label: "Ghi chú", value: "Nối tiếp dữ liệu phả hệ đang công khai." },
     ],
     relatedPeople: [
@@ -293,7 +293,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       },
       {
         fullName: "Hồ Thị Sen",
-        relation: "Đời trước",
+        relation: "Đời 2",
         note: "Đại diện chi thứ đời 2.",
       },
       {
@@ -308,10 +308,10 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     generation: "Đời 3",
     branch: "Nhánh Nam",
     lifespan: "1950 - 2016",
-    relationLabel: "Cháu nội",
+    relationLabel: "Nội tộc",
     summary:
       "Đại diện nhánh Nam, bổ sung trường hợp hồ sơ đã mất nhưng còn thông tin đối chiếu theo chi.",
-    role: "Cháu nội, nhánh Nam",
+    role: "Thành viên nội tộc nhánh Nam",
     note: "Hồ sơ đã mất, dùng để kiểm tra hiển thị niên đại và liên kết đời sau.",
     extraDetails: [
       { label: "Tình trạng", value: "Đã mất" },
@@ -338,12 +338,12 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
   makePublicGenealogyProfile({
     fullName: "Nguyễn Thị Lan",
     generation: "Đời 3",
-    branch: "Dâu chi trưởng",
+    branch: "Chi trưởng",
     lifespan: "1954 - nay",
-    relationLabel: "Con dâu",
+    relationLabel: "Phối ngẫu",
     summary:
       "Hồ sơ người phối ngẫu trong dòng họ, dùng để kiểm tra trường hợp khác họ nhưng liên kết theo hôn phối.",
-    role: "Con dâu chi trưởng",
+    role: "Người phối ngẫu thuộc chi trưởng",
     note: "Khác họ Hồ nhưng vẫn xuất hiện trong bản công khai theo quan hệ hôn phối.",
     extraDetails: [
       { label: "Tình trạng", value: "Còn sống" },
@@ -372,10 +372,10 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     generation: "Đời 4",
     branch: "Nhánh Đông",
     lifespan: "1975 - nay",
-    relationLabel: "Chắt gái",
+    relationLabel: "Nội tộc",
     summary:
       "Hồ sơ đời thứ tư thuộc nhánh Đông, đại diện trường hợp nữ giới nối kết tư liệu gia đình.",
-    role: "Chắt gái",
+    role: "Thành viên nội tộc đời 4",
     note: "Dùng để kiểm tra hiển thị đời 4 và quan hệ cha mẹ trong trang chi tiết.",
     extraDetails: [
       { label: "Tình trạng", value: "Còn sống" },
@@ -404,10 +404,10 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     generation: "Đời 4",
     branch: "Nhánh Đông xa quê",
     lifespan: "1978 - nay",
-    relationLabel: "Chắt trai",
+    relationLabel: "Nội tộc",
     summary:
       "Hồ sơ đời thứ tư đang sinh sống xa quê, kiểm tra trường hợp có địa bàn cư trú khác nơi gốc.",
-    role: "Chắt trai",
+    role: "Thành viên nội tộc đời 4",
     note: "Đại diện nhóm con cháu xa quê nhưng vẫn giữ liên hệ phả hệ.",
     extraDetails: [
       { label: "Tình trạng", value: "Còn sống" },
@@ -427,7 +427,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       {
         fullName: "Hồ Minh Quân",
         relation: "Con",
-        note: "Hậu duệ trẻ đời 5.",
+        note: "Hồ sơ đời 5 thuộc nhánh Đông.",
       },
     ],
   }),
@@ -436,7 +436,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     generation: "Đời 5",
     branch: "Nhánh Đông hải ngoại",
     lifespan: "2003 - nay",
-    relationLabel: "Hậu duệ trẻ",
+    relationLabel: "Hậu duệ",
     summary:
       "Hồ sơ thế hệ trẻ đang ở xa, dùng để kiểm tra tên ngắn, đời sâu và nhánh hải ngoại.",
     role: "Hậu duệ đời 5",
@@ -468,10 +468,10 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     generation: "Đời 4",
     branch: "Nhánh Tây",
     lifespan: "1982 - nay",
-    relationLabel: "Chắt gái",
+    relationLabel: "Nội tộc",
     summary:
       "Hồ sơ đời thứ tư thuộc nhánh Tây, đại diện trường hợp lập gia đình với người khác họ.",
-    role: "Chắt gái nhánh Tây",
+    role: "Thành viên nội tộc nhánh Tây",
     note: "Dùng để kiểm tra quan hệ phối ngẫu và đời sau thuộc nhánh Tây.",
     extraDetails: [
       { label: "Tình trạng", value: "Còn sống" },
@@ -486,7 +486,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       {
         fullName: "Trần Văn Lâm",
         relation: "Phu quân",
-        note: "Hồ sơ con rể nhánh Tây.",
+        note: "Hồ sơ phối ngẫu thuộc nhánh Tây.",
       },
       {
         fullName: "Hồ Gia Bảo",
@@ -498,16 +498,16 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
   makePublicGenealogyProfile({
     fullName: "Trần Văn Lâm",
     generation: "Đời 4",
-    branch: "Rể nhánh Tây",
+    branch: "Nhánh Tây",
     lifespan: "1980 - nay",
-    relationLabel: "Con rể",
+    relationLabel: "Phối ngẫu",
     summary:
       "Hồ sơ con rể trong bản phả hệ công khai, giúp kiểm tra người khác họ theo quan hệ hôn phối.",
-    role: "Con rể nhánh Tây",
+    role: "Người phối ngẫu thuộc nhánh Tây",
     note: "Khác họ Hồ nhưng liên kết với hồ sơ nhánh Tây qua hôn phối.",
     extraDetails: [
       { label: "Tình trạng", value: "Còn sống" },
-      { label: "Trường hợp", value: "Con rể khác họ" },
+      { label: "Trường hợp", value: "Người phối ngẫu khác họ" },
     ],
     relatedPeople: [
       {
@@ -532,7 +532,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     generation: "Đời 5",
     branch: "Nhánh Tây",
     lifespan: "2012 - nay",
-    relationLabel: "Chút nội",
+    relationLabel: "Hậu duệ",
     summary:
       "Hồ sơ trẻ em đời thứ năm, dùng để kiểm tra dữ liệu thế hệ nhỏ tuổi và tên ngắn.",
     role: "Hậu duệ đời 5",
@@ -550,7 +550,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       {
         fullName: "Trần Văn Lâm",
         relation: "Cha",
-        note: "Hồ sơ con rể nhánh Tây.",
+        note: "Hồ sơ phối ngẫu thuộc nhánh Tây.",
       },
       {
         fullName: "Hồ Thị Mai",
@@ -564,7 +564,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     generation: "Đời 4",
     branch: "Nhánh Nam",
     lifespan: "1988 - 1988",
-    relationLabel: "Mất lúc nhỏ",
+    relationLabel: "Mất sớm",
     summary:
       "Hồ sơ đời thứ tư có cùng năm sinh và mất, dùng để kiểm tra trường hợp mất lúc nhỏ.",
     role: "Hậu duệ nhánh Nam",
@@ -594,12 +594,12 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
   makePublicGenealogyProfile({
     fullName: "Hồ Thiện Tâm",
     generation: "Đời 5",
-    branch: "Nhánh Đông nhận nuôi",
+    branch: "Nhánh Đông",
     lifespan: "2016 - nay",
-    relationLabel: "Con nuôi",
+    relationLabel: "Nhận nuôi",
     summary:
       "Hồ sơ nhận nuôi trong bản công khai, giúp kiểm tra trường hợp quan hệ gia đình không theo huyết thống trực tiếp.",
-    role: "Con nuôi đời 5",
+    role: "Quan hệ nhận nuôi đời 5",
     note: "Đại diện tình huống quan hệ nhận nuôi cần được ghi chú rõ trong phả hệ.",
     extraDetails: [
       { label: "Tình trạng", value: "Còn sống" },
@@ -614,7 +614,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
       {
         fullName: "Hồ Minh Quân",
         relation: "Anh họ",
-        note: "Hậu duệ trẻ đời 5.",
+        note: "Hồ sơ đời 5 thuộc nhánh Đông.",
       },
       {
         fullName: "Nguyễn Thị Lan",
