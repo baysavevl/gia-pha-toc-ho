@@ -9,9 +9,17 @@ export async function updateSession(request: NextRequest) {
   const isProtectedPath = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path),
   );
-  const isLoginPage = request.nextUrl.pathname.startsWith("/login");
+  const isAdminLoginPage = request.nextUrl.pathname.startsWith("/admin");
+  const isLegacyLoginPage = request.nextUrl.pathname.startsWith("/login");
   const isSetupPage = request.nextUrl.pathname.startsWith("/setup");
-  const requiresSupabaseConfig = isProtectedPath || isLoginPage || isSetupPage;
+  const requiresSupabaseConfig =
+    isProtectedPath || isAdminLoginPage || isSetupPage;
+
+  if (isLegacyLoginPage) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/admin";
+    return NextResponse.redirect(url);
+  }
 
   // If env vars are missing, we cannot create a supabase client
   if (!supabaseUrl || !supabaseKey) {
@@ -59,7 +67,7 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   // Check if DB schema is initialized by checking if profiles table exists
-  if (isProtectedPath || isLoginPage) {
+  if (isProtectedPath || isAdminLoginPage) {
     const { error: profileError } = await supabase
       .from("profiles")
       .select("id")
@@ -76,14 +84,12 @@ export async function updateSession(request: NextRequest) {
   }
 
   if (isProtectedPath && !user) {
-    // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+    url.pathname = "/admin";
     return NextResponse.redirect(url);
   }
 
-  // Redirect users who are already logged in away from the login page
-  if (isLoginPage && user) {
+  if (isAdminLoginPage && user) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard";
     return NextResponse.redirect(url);

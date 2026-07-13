@@ -16,7 +16,7 @@ export default async function DashboardLayout({
   const user = await getUser();
 
   if (!user) {
-    redirect("/login");
+    redirect("/admin");
   }
 
   const profile = await getProfile(user.id);

@@ -14,7 +14,7 @@ export default function LogoutButton() {
     setIsLoggingOut(true);
     try {
       await supabase.auth.signOut();
-      router.push("/login");
+      router.push("/admin");
       router.refresh(); // Refresh to clear any cached Server Component data
     } catch (error) {
       console.error("Lỗi đăng xuất:", error);

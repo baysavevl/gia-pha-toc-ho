@@ -67,9 +67,9 @@ export interface PublicGenealogyProfile {
 export const siteContent = {
   name: "Hồ Văn Tộc",
   tagline:
-    "Không gian số lưu giữ cội nguồn, gia phả và truyền thống dòng họ Hồ Văn.",
+    "Gia phả, phả ký và phả đồ đã publish của dòng họ Hồ Văn.",
   description:
-    "Website Hồ Văn Tộc được xây dựng để kết nối các thế hệ con cháu, lưu giữ lịch sử hình thành, gia phả, tư liệu, hình ảnh và những giá trị văn hóa của dòng họ một cách bền vững.",
+    "Trang công khai của Hồ Văn Tộc hiển thị các nội dung đã được publish: phả ký, hồ sơ phả hệ, phả đồ, tư liệu và thông tin liên hệ.",
   heroImage: "/heritage/temple-gate.png",
   quietImage: "/heritage/heritage-mist.png",
   landscapeImage: "/heritage/heritage-landscape.png",
@@ -84,7 +84,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     lifespan: "1888 - 1959",
     relationLabel: "Gốc phả hệ",
     summary:
-      "Thông tin minh họa cho vị trí khởi phả, dùng để Ban trị sự rà soát trước khi thay bằng dữ liệu đã xác nhận.",
+      "Vị trí khởi phả của nhánh đang được công khai, là điểm nối chính cho các đời kế tiếp.",
   },
   {
     fullName: "Hồ Văn Định",
@@ -93,7 +93,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     lifespan: "1914 - 1987",
     relationLabel: "Con trưởng",
     summary:
-      "Đại diện nhánh trưởng trong bản publish, có thể bổ sung quê quán, nghề nghiệp và ghi chú công đức khi được duyệt.",
+      "Đại diện chi trưởng, nối tiếp dòng chính và mở ra các nhánh con trong bản phả đồ.",
   },
   {
     fullName: "Hồ Thị Sen",
@@ -102,7 +102,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     lifespan: "1919 - 1998",
     relationLabel: "Con thứ",
     summary:
-      "Hồ sơ nữ giới được giữ trong phả hệ để con cháu tra cứu mối liên hệ giữa các nhánh nội ngoại.",
+      "Hồ sơ thuộc đời thứ hai, giúp đối chiếu quan hệ giữa các nhánh nội ngoại.",
   },
   {
     fullName: "Hồ Văn Minh",
@@ -111,7 +111,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     lifespan: "1946 - nay",
     relationLabel: "Cháu nội",
     summary:
-      "Mẫu hồ sơ người còn sống chỉ hiển thị dữ liệu tối giản, tránh công khai thông tin riêng tư khi chưa được cho phép.",
+      "Đại diện đời thứ ba thuộc nhánh Đông, đang được hiển thị với thông tin công khai tối giản.",
   },
   {
     fullName: "Hồ Thị Mai",
@@ -120,7 +120,7 @@ export const publicGenealogyProfiles: PublicGenealogyProfile[] = [
     lifespan: "1952 - nay",
     relationLabel: "Cháu nội",
     summary:
-      "Thông tin minh họa cho một nhánh đã tách hộ, có thể liên kết đến bài viết hoặc tư liệu gia đình sau này.",
+      "Đại diện đời thứ ba thuộc nhánh Tây, nối tiếp dữ liệu phả hệ đã được publish.",
   },
 ];
 
@@ -312,13 +312,13 @@ export const phaKyEntries: PublicContentEntry[] = [
     title: "Nguồn gốc dòng họ Hồ Văn",
     slug: "nguon-goc-dong-ho-ho-van",
     summary:
-      "Phần mở đầu ghi lại tinh thần tìm về cội nguồn, những tư liệu cần được đối chiếu và cách hệ thống hóa lịch sử dòng họ.",
+      "Ghi lại thủy tổ, nơi khai cơ và các dấu mốc đầu tiên được truyền lại trong dòng họ.",
     category: "Lịch sử dòng họ",
     coverImage: siteContent.quietImage,
     body: [
-      "Phả ký là không gian lưu giữ những ghi chép về nguồn gốc, quá trình hình thành và các dấu mốc quan trọng của dòng họ Hồ Văn. Nội dung ở phiên bản đầu tiên được trình bày theo từng chương để Ban trị sự dễ bổ sung, đối chiếu và hoàn thiện theo thời gian.",
-      "Mỗi chương có thể liên kết đến nhân vật, địa danh hoặc chi họ liên quan khi dữ liệu phả hệ đã được xác nhận. Cách tổ chức này giúp lịch sử dòng họ không tách rời khỏi cây gia phả, đồng thời tránh nhập liệu trùng lặp.",
-      "Các thông tin trong phả ký cần được xem là tư liệu đang được bồi đắp. Khi có tài liệu gốc, hình ảnh hoặc ghi chép bổ sung, Ban trị sự có thể cập nhật nội dung và lưu lại lịch sử chỉnh sửa trong các giai đoạn triển khai tiếp theo.",
+      "Dòng họ Hồ Văn ghi nhớ thủy tổ, nơi khai cơ và những dấu mốc đầu tiên qua các câu chuyện được truyền lại trong gia đình.",
+      "Các nhánh đời sau tiếp nối việc thờ phụng tổ tiên, giữ nề nếp họ tộc và duy trì liên hệ giữa những gia đình cùng huyết thống.",
+      "Những tư liệu đã publish trong chương này là phần mở đầu cho việc đối chiếu nguồn gốc, nhân vật và địa danh liên quan đến phả hệ.",
     ],
   },
   {
@@ -326,13 +326,13 @@ export const phaKyEntries: PublicContentEntry[] = [
     title: "Gia phong và truyền thống",
     slug: "gia-phong-va-truyen-thong",
     summary:
-      "Tổng hợp các giá trị văn hóa, đạo đức và nếp sinh hoạt được gìn giữ qua nhiều thế hệ.",
+      "Ghi lại nề nếp thờ phụng tổ tiên, họp tộc và những giá trị được gìn giữ qua các đời.",
     category: "Gia phong",
     coverImage: siteContent.landscapeImage,
     body: [
-      "Gia phong là phần ký ức sống của mỗi dòng họ. Với Hồ Văn Tộc, mục này dành để ghi lại những nề nếp, lời dạy, tập tục, tinh thần học tập, lao động và trách nhiệm với gia đình, quê hương.",
-      "Nội dung có thể bao gồm câu chuyện về các đời tiền nhân, những dịp họp tộc, hoạt động tri ân tổ tiên, việc tu bổ nhà thờ tộc và các đóng góp của con cháu trong cộng đồng.",
-      "Việc số hóa những giá trị này giúp các thế hệ ở xa vẫn có thể đọc, hiểu và tiếp nối truyền thống chung của dòng họ.",
+      "Các đời trong dòng họ nhắc nhau giữ lễ nghĩa với tổ tiên, sống hòa thuận trong gia đình và có trách nhiệm với quê hương.",
+      "Những dịp họp tộc, giỗ tổ và tu bổ nhà thờ là các mốc sinh hoạt chung được con cháu tiếp tục duy trì.",
+      "Chương này ghi lại các giá trị đang được truyền lại để những người ở xa vẫn có thể đọc và tiếp nối truyền thống chung.",
     ],
   },
 ];
